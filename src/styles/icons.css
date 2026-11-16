@@ -1,0 +1,204 @@
+/*
+ * Animações dos ícones SVG.
+ * - `.anim-hover:hover` anima o ícone quando o elemento pai recebe o mouse;
+ * - `.playing` mantém a animação contínua (ex.: durante uma varredura);
+ * - `.active` deixa o ícone no estado "aceso" (item de menu selecionado).
+ */
+
+.icon * {
+  transform-box: view-box;
+}
+
+/* Lixeira: a tampa abre. */
+.icon .i-lid {
+  transform-origin: 4px 6.5px;
+  transition: transform 260ms var(--ease-spring);
+}
+.anim-hover:hover .icon .i-lid,
+.icon.playing .i-lid {
+  transform: rotate(-16deg) translateY(-0.6px);
+}
+
+/* Vassoura: varre e solta poeira. */
+.icon .i-broom {
+  transform-origin: 19.5px 3.5px;
+}
+.icon .i-dust {
+  opacity: 0;
+}
+.anim-hover:hover .icon .i-broom,
+.icon.playing .i-broom {
+  animation: org-sweep 900ms var(--ease-in-out) infinite;
+}
+.anim-hover:hover .icon .i-dust,
+.icon.playing .i-dust {
+  animation: org-dust 900ms ease-out infinite;
+}
+.anim-hover:hover .icon .i-dust-2,
+.icon.playing .i-dust-2 {
+  animation-delay: 300ms;
+}
+
+/* Raio: pisca e acende. */
+.icon .i-bolt {
+  transition:
+    fill 200ms ease,
+    transform 260ms var(--ease-spring);
+  transform-origin: 12px 12px;
+}
+.anim-hover:hover .icon .i-bolt,
+.icon.playing .i-bolt {
+  fill: currentColor;
+  fill-opacity: 0.18;
+  animation: org-flash 1.6s ease-in-out infinite;
+}
+
+/* Saúde: batimento e eletrocardiograma. */
+.icon .i-heart {
+  transform-origin: 12px 13px;
+}
+.icon .i-ecg {
+  stroke-dasharray: 48;
+  stroke-dashoffset: 0;
+}
+.anim-hover:hover .icon .i-ecg,
+.icon.playing .i-ecg {
+  animation: org-ecg 1.4s linear infinite;
+}
+.anim-hover:hover .icon .i-heart,
+.icon.playing .i-heart {
+  animation: org-beat 1.4s ease-in-out infinite;
+}
+
+/* Foguete: decola com chama. */
+.icon .i-rocket {
+  transition: transform 300ms var(--ease-spring);
+}
+.icon .i-flame {
+  transform-origin: 7px 16px;
+  opacity: 0.85;
+}
+.anim-hover:hover .icon .i-rocket {
+  transform: translate(1px, -1px);
+}
+.anim-hover:hover .icon .i-flame,
+.icon.playing .i-flame {
+  animation: org-flame 280ms ease-in-out infinite;
+}
+
+/* Engrenagem: gira. */
+.icon .i-gear {
+  transform-origin: 12px 12px;
+  transition: transform 600ms var(--ease-out);
+}
+.anim-hover:hover .icon .i-gear {
+  transform: rotate(90deg);
+}
+.icon.playing .i-gear {
+  animation: org-spin 2.4s linear infinite;
+}
+
+/* Varinha: estrelinhas cintilam. */
+.icon .i-spark {
+  transform-origin: center;
+}
+.anim-hover:hover .icon .i-spark,
+.icon.playing .i-spark {
+  animation: org-twinkle 1.1s ease-in-out infinite;
+}
+.anim-hover:hover .icon .i-spark-2,
+.icon.playing .i-spark-2 {
+  animation-delay: 250ms;
+}
+.anim-hover:hover .icon .i-spark-3,
+.icon.playing .i-spark-3 {
+  animation-delay: 500ms;
+}
+
+/* Brilhos. */
+.icon .i-sp1,
+.icon .i-sp2,
+.icon .i-sp3 {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.anim-hover:hover .icon .i-sp1,
+.icon.playing .i-sp1 {
+  animation: org-twinkle 1.6s ease-in-out infinite;
+}
+.anim-hover:hover .icon .i-sp2,
+.icon.playing .i-sp2 {
+  animation: org-twinkle 1.6s ease-in-out 300ms infinite;
+}
+.anim-hover:hover .icon .i-sp3,
+.icon.playing .i-sp3 {
+  animation: org-twinkle 1.6s ease-in-out 650ms infinite;
+}
+
+/* Camadas: a de cima levanta. */
+.icon .i-layer-top {
+  transition: transform 260ms var(--ease-spring);
+}
+.anim-hover:hover .icon .i-layer-top {
+  transform: translateY(-1.6px);
+}
+
+/* Pasta aberta: a aba balança. */
+.icon .i-flap {
+  transform-origin: 4px 18.5px;
+  transition: transform 300ms var(--ease-spring);
+}
+.anim-hover:hover .icon .i-flap {
+  transform: skewX(-6deg) scaleY(0.94);
+}
+
+/* Duplicados: a cópia da frente desliza. */
+.icon .i-copy-front {
+  transition: transform 260ms var(--ease-spring);
+}
+.anim-hover:hover .icon .i-copy-front {
+  transform: translate(-1px, 1px);
+}
+
+/* Medidor: o ponteiro sobe. */
+.icon .i-needle {
+  transform-origin: 12px 13.5px;
+  transition: transform 500ms var(--ease-spring);
+}
+.anim-hover:hover .icon .i-needle {
+  transform: rotate(-70deg);
+}
+
+/* Disco e varredura (estado de trabalho). */
+.icon .i-disc-arc {
+  transform-origin: 12px 12px;
+}
+.icon.playing .i-disc-arc {
+  animation: org-spin 900ms linear infinite;
+}
+.icon.playing .i-scanline {
+  animation: org-scanline 1.4s var(--ease-in-out) infinite;
+}
+
+@keyframes org-scanline {
+  0%,
+  100% {
+    transform: translateY(-4px);
+  }
+  50% {
+    transform: translateY(4px);
+  }
+}
+
+/* Confirmação: o traço se desenha ao aparecer. */
+.icon.draw .i-check {
+  stroke-dasharray: 24;
+  --dash: 24;
+  animation: org-draw 520ms var(--ease-out) both 120ms;
+}
+
+/* Atividade: o traço percorre o gráfico. */
+.icon.playing .i-activity {
+  stroke-dasharray: 40;
+  animation: org-ecg 1.6s linear infinite;
+}
