@@ -395,6 +395,11 @@ pub(crate) mod tests {
         w("musicas/faixa.mp3", 8000);
         w("instalador.exe", 9000);
         w(".oculto/segredo.txt", 50);
+        // No Windows "oculto" é um atributo (não o ponto no nome): marca a pasta.
+        #[cfg(windows)]
+        {
+            let _ = std::process::Command::new("attrib").arg("+h").arg(d.path().join(".oculto")).status();
+        }
         d
     }
 

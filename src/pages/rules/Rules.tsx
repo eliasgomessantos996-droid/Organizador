@@ -7,16 +7,13 @@ import { openDropdown } from '../../components/ui/Menu';
 import { DialogHeader, Modal } from '../../components/ui/Modal';
 import { api, errorText } from '../../lib/api';
 import { CATEGORY_BY_ID } from '../../lib/categories';
-import { emitFsChanged } from '../../lib/events';
-import { undoLast } from '../../lib/fileops';
 import { basename, dirname, formatBytes, plural } from '../../lib/format';
+import { applyPlan } from '../../lib/rulesApply';
 import type { PlannedAction, Rule } from '../../lib/types';
 import { confirm } from '../../store/dialogs';
-import { useJournal } from '../../store/journal';
 import { usePlaces } from '../../store/places';
 import { blankRule, TEMPLATES, useRules } from '../../store/rules';
 import { useSettings } from '../../store/settings';
-import { runTask } from '../../store/tasks';
 import { toast } from '../../store/toasts';
 import { RuleEditor } from './RuleEditor';
 
@@ -32,22 +29,6 @@ function summary(r: Rule): string[] {
   if (r.recursive) out.push('com subpastas');
   if (!out.length) out.push('todos os arquivos');
   return out;
-}
-
-/** Aplica a prévia e registra para o Desfazer. */
-export async function applyPlan(plan: PlannedAction[], silent = false) {
-  const res = await runTask(`Organizando ${plural(plan.length, 'arquivo', 'arquivos')}`, 'wand', (id) => api.rulesApply(id, plan));
-  const j = useJournal.getState();
-  if (res.moved.length) j.push({ kind: 'rules', label: `Regras: organizou ${plural(res.moved.length, 'arquivo', 'arquivos')}`, pairs: res.moved.map((m) => [m.from, m.to]), bytes: res.bytes });
-  if (res.copied.length) j.push({ kind: 'copy', label: `Regras: copiou ${plural(res.copied.length, 'arquivo', 'arquivos')}`, paths: res.copied.map((m) => m.to) });
-  if (res.trashed.length) j.push({ kind: 'trash', label: `Regras: enviou ${plural(res.trashed.length, 'arquivo', 'arquivos')} para a Lixeira`, paths: res.trashed });
-  emitFsChanged([...new Set([...plan.map((p) => dirname(p.from)), ...plan.filter((p) => p.to).map((p) => dirname(p.to!))])]);
-  const total = res.moved.length + res.copied.length + res.trashed.length;
-  if (!silent || total) {
-    if (res.failed.length) toast.warning(`${plural(total, 'arquivo organizado', 'arquivos organizados')}`, `${res.failed.length} não puderam ser processados: ${res.failed[0].error}`);
-    else if (total) toast.good(`${plural(total, 'arquivo organizado', 'arquivos organizados')}`, `${formatBytes(res.bytes)} processados pelas regras.`, { label: 'Desfazer', run: () => void undoLast() });
-  }
-  return res;
 }
 
 export function Rules() {

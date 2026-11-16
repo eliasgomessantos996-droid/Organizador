@@ -310,8 +310,9 @@ mod tests {
         let src = Path::new("/base");
         // 15/03/2024 12:00 UTC
         let p = expand_dest("{categoria}/{ano}/{mes}", src, "foto.JPG", 1_710_504_000_000);
-        let s = p.to_string_lossy();
-        assert!(s.starts_with("/base/Imagens/2024/0"), "{s}");
+        // Compara por componentes (no Windows o separador é "\").
+        assert!(p.starts_with(src.join("Imagens").join("2024")), "{p:?}");
+        assert!(p.ends_with("03"), "{p:?}");
         assert_eq!(expand_dest("Arquivos {EXT}", src, "a.pdf", 0), src.join("Arquivos PDF"));
     }
 

@@ -26,6 +26,7 @@ function FolderSize({ path }: { path: string }) {
       type="button"
       className="btn btn-soft btn-sm"
       disabled={busy}
+      data-tip="Soma esta pasta com todas as subpastas"
       onClick={async () => {
         setBusy(true);
         try {
@@ -36,7 +37,7 @@ function FolderSize({ path }: { path: string }) {
       }}
     >
       {busy ? <Spinner size={13} /> : <Icon name="ruler" size={14} />}
-      {busy ? 'Calculando…' : 'Calcular tamanho'}
+      {busy ? 'Calculando…' : 'Calcular'}
     </button>
   );
 }

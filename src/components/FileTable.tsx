@@ -219,8 +219,8 @@ export function FileTable(p: FileTableProps) {
         );
       case 'type':
         return (
-          <div className="ft-cell muted truncate" key={c}>
-            {typeLabel(e.category, e.ext)}
+          <div className="ft-cell muted" key={c}>
+            <span className="truncate">{typeLabel(e.category, e.ext)}</span>
           </div>
         );
       case 'size':

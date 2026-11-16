@@ -1,10 +1,16 @@
 import { useEffect } from 'react';
-import { api } from './api';
-import { useCommandPalette } from '../components/CommandPalette';
-import { quickPlaces, usePlaces } from '../store/places';
-import { go } from '../store/nav';
-import { useSettings } from '../store/settings';
+import { api, newTaskId } from './api';
+import { cleanOptions, profileTargets, runCleanup } from './cleanup';
 import { undoLast } from './fileops';
+import { formatBytes } from './format';
+import { applyPlan } from './rulesApply';
+import { trimMemory } from './systemActions';
+import { useCommandPalette } from '../components/CommandPalette';
+import { go } from '../store/nav';
+import { quickPlaces, usePlaces } from '../store/places';
+import { useRules } from '../store/rules';
+import { useSettings } from '../store/settings';
+import { toast } from '../store/toasts';
 
 /** Registra na paleta de comandos as pastas especiais e unidades. */
 export function usePlaceCommands() {
@@ -48,7 +54,7 @@ export function usePlaceCommands() {
         group: 'Ações',
         icon: 'memory',
         keywords: 'ram memoria liberar',
-        run: () => void import('./systemActions').then((m) => m.trimMemory()),
+        run: () => void trimMemory(),
       },
       { id: 'action:forgotten', label: 'Procurar arquivos esquecidos', group: 'Ações', icon: 'clock', keywords: 'antigos sem uso velhos', run: () => go('limpeza', { tab: 'esquecidos' }) },
       { id: 'action:programs', label: 'Desinstalar programas', group: 'Ações', icon: 'package', keywords: 'apps aplicativos remover', run: () => go('inicializacao', { tab: 'programas' }) },
@@ -86,10 +92,6 @@ export function useAutoClean() {
     const days = { diaria: 1, semanal: 7, mensal: 30 }[s.autoClean];
     if (Date.now() - s.lastAutoClean < days * 86_400_000) return;
     const t = window.setTimeout(async () => {
-      const { profileTargets, cleanOptions, runCleanup } = await import('./cleanup');
-      const { toast } = await import('../store/toasts');
-      const { formatBytes } = await import('./format');
-      const { newTaskId } = await import('./api');
       const profile = s.oneClickProfile === 'completo' ? 'equilibrado' : s.oneClickProfile;
       try {
         const reports = await api.cleanupAnalyze(newTaskId(), profileTargets(profile), cleanOptions());
@@ -110,13 +112,11 @@ export function useRulesOnStart() {
   useEffect(() => {
     if (!useSettings.getState().runRulesOnStart) return;
     const t = window.setTimeout(async () => {
-      const { useRules } = await import('../store/rules');
       const rules = useRules.getState().rules.filter((r) => r.enabled);
       if (!rules.length) return;
       try {
         const plan = await api.rulesPreview(rules);
         if (!plan.length) return;
-        const { applyPlan } = await import('../pages/rules/Rules');
         await applyPlan(plan, true);
       } catch {
         /* uma pasta de origem pode não existir mais; tenta na próxima abertura */

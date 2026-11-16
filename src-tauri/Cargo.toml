@@ -7,7 +7,7 @@ edition = "2021"
 rust-version = "1.80"
 
 [build-dependencies]
-tauri-build = "2.6.3"
+tauri-build = { version = "2.6.3", features = [] }
 
 [dependencies]
 organizador-core = { version = "1.0.0", path = "core" }
