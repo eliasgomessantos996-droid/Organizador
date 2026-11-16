@@ -1311,3 +1311,374 @@ button.chip:hover {
   font-size: 12px;
   color: var(--text-3);
 }
+
+.choose-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.choose-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  width: 100%;
+  padding: 11px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  text-align: left;
+  transition:
+    border-color var(--dur-fast) ease,
+    background var(--dur-fast) ease,
+    transform var(--dur-fast) ease;
+}
+
+.choose-item:hover,
+.choose-item:focus-visible {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.choose-item:active {
+  transform: scale(0.99);
+}
+
+.choose-item.primary {
+  border-color: color-mix(in srgb, var(--accent) 50%, var(--border));
+}
+
+.choose-item.danger:hover,
+.choose-item.danger:focus-visible {
+  border-color: var(--danger);
+  background: var(--danger-soft);
+}
+
+.choose-label {
+  font-weight: 650;
+  font-size: 13.5px;
+}
+
+.choose-desc {
+  font-size: 12.5px;
+  color: var(--text-2);
+}
+
+/* ───────────── Arrastar e soltar ───────────── */
+body.dragging,
+body.dragging * {
+  cursor: grabbing !important;
+}
+
+.drag-ghost {
+  position: fixed;
+  z-index: 1300;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px 8px 8px;
+  border-radius: 12px;
+  background: var(--surface-glass);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-lg);
+  pointer-events: none;
+  max-width: 300px;
+}
+
+.drag-ghost-stack {
+  position: relative;
+  width: 38px;
+  height: 38px;
+  flex: none;
+}
+
+.drag-ghost-card {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+
+.drag-ghost-card.back {
+  transform: rotate(-8deg) translate(-3px, 2px);
+  opacity: 0.8;
+}
+
+.drag-ghost-count {
+  position: absolute;
+  right: -6px;
+  top: -6px;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--on-accent);
+  font-size: 11px;
+  font-weight: 750;
+  display: grid;
+  place-items: center;
+}
+
+.drag-ghost-text {
+  min-width: 0;
+  font-size: 12.5px;
+}
+
+.drag-ghost-hint {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--text-2);
+  font-size: 12px;
+}
+
+.drop-over {
+  background: var(--accent-soft-2) !important;
+  box-shadow: inset 0 0 0 1.5px var(--accent) !important;
+  border-radius: 8px;
+}
+
+/* ───────────── Painel de tarefas ───────────── */
+.tasks-panel {
+  position: absolute;
+  left: 20px;
+  bottom: 20px;
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 340px;
+  pointer-events: none;
+}
+
+.task-card {
+  pointer-events: auto;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: var(--surface-glass);
+  backdrop-filter: blur(16px) saturate(1.3);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-lg);
+}
+
+.task-icon {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  background: var(--accent-soft);
+  color: var(--accent-text);
+  flex: none;
+}
+
+/* ───────────── Gráficos ───────────── */
+.seg-bar {
+  display: flex;
+  gap: 2px;
+  width: 100%;
+  border-radius: 4px;
+  overflow: hidden;
+  background: var(--chart-surface);
+}
+
+.seg-bar.empty {
+  background: var(--track);
+}
+
+.seg-part {
+  min-width: 3px;
+  border: none;
+  padding: 0;
+  height: 100%;
+  border-radius: 0;
+  transition: filter var(--dur-fast) ease;
+}
+
+.seg-part:first-child {
+  border-radius: 4px 0 0 4px;
+}
+
+.seg-part:last-child {
+  border-radius: 0 4px 4px 0;
+}
+
+.seg-part:only-child {
+  border-radius: 4px;
+}
+
+.seg-part:hover {
+  filter: brightness(1.12);
+}
+
+.meter-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ml-row {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 100%;
+  padding: 7px 8px;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  background: transparent;
+  text-align: left;
+  color: inherit;
+}
+
+.ml-row.clickable:hover {
+  background: var(--hover);
+}
+
+.ml-row.selected {
+  background: var(--accent-soft);
+  border-color: color-mix(in srgb, var(--accent) 40%, transparent);
+}
+
+.ml-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  font-size: 12.5px;
+}
+
+.ml-label {
+  flex: 1;
+  min-width: 0;
+}
+
+.ml-value {
+  color: var(--text-2);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.ml-track {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--track);
+  overflow: hidden;
+}
+
+.ml-fill {
+  height: 100%;
+  border-radius: 999px;
+}
+
+.ml-sub {
+  font-size: 11.5px;
+  color: var(--text-3);
+}
+
+/* ───────────── Seletor de pastas e progresso de varredura ───────────── */
+.roots-picker {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.roots-chips,
+.roots-suggest {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.root-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 32px;
+  padding: 0 12px 0 8px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  font-size: 13px;
+  font-weight: 600;
+  max-width: 260px;
+  box-shadow: var(--shadow-sm);
+}
+
+.scan-progress {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 36px 28px 28px;
+  text-align: center;
+  max-width: 640px;
+  margin: 24px auto;
+}
+
+.scan-orb {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  background: var(--brand-gradient-soft);
+  color: var(--accent-text);
+}
+
+.scan-orb-ring {
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 2px solid var(--accent);
+  opacity: 0;
+  animation: scan-ring 2s var(--ease-out) infinite;
+}
+
+.scan-orb-ring.delay {
+  animation-delay: 1s;
+}
+
+@keyframes scan-ring {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1.35);
+    opacity: 0;
+  }
+}
+
+.scan-title {
+  font-family: var(--font-brand);
+  font-size: 18px;
+  font-weight: 750;
+}
+
+.scan-phase {
+  color: var(--text-2);
+  margin-top: -8px;
+}
+
+.scan-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  margin: 6px 0;
+}
+
+.scan-current {
+  max-width: 520px;
+  font-size: 12px;
+  color: var(--text-3);
+  font-family: var(--font-mono);
+}

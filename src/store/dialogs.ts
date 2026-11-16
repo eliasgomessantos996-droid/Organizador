@@ -27,9 +27,19 @@ export interface PromptOptions {
   validate?: (value: string) => string | null;
 }
 
+export interface ChooseOptions {
+  title: string;
+  text?: string;
+  icon?: IconName;
+  tone?: 'default' | 'danger' | 'warning';
+  details?: string[];
+  options: { id: string; label: string; description?: string; tone?: 'primary' | 'danger' | 'default' }[];
+}
+
 type DialogRequest =
   | { kind: 'confirm'; options: ConfirmOptions; resolve: (r: { ok: boolean; checked: boolean }) => void }
-  | { kind: 'prompt'; options: PromptOptions; resolve: (value: string | null) => void };
+  | { kind: 'prompt'; options: PromptOptions; resolve: (value: string | null) => void }
+  | { kind: 'choose'; options: ChooseOptions; resolve: (id: string | null) => void };
 
 interface DialogState {
   current: DialogRequest | null;
@@ -64,4 +74,9 @@ export function confirmWithCheck(options: ConfirmOptions): Promise<{ ok: boolean
 /** Pede um texto ao usuário. Resolve `null` se cancelar. */
 export function prompt(options: PromptOptions): Promise<string | null> {
   return new Promise((resolve) => useDialogs.getState().open({ kind: 'prompt', options, resolve }));
+}
+
+/** Pergunta com várias opções (ex.: Substituir / Ignorar / Manter os dois). */
+export function choose(options: ChooseOptions): Promise<string | null> {
+  return new Promise((resolve) => useDialogs.getState().open({ kind: 'choose', options, resolve }));
 }

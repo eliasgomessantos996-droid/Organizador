@@ -133,7 +133,9 @@ export function DialogHost() {
 
   const finish = (ok: boolean) => {
     if (!current) return;
-    if (current.kind === 'confirm') {
+    if (current.kind === 'choose') {
+      current.resolve(null);
+    } else if (current.kind === 'confirm') {
       current.resolve({ ok, checked });
     } else {
       if (ok) {
@@ -150,7 +152,50 @@ export function DialogHost() {
   };
 
   const o = current?.options;
-  const tone = current?.kind === 'confirm' ? current.options.tone : undefined;
+  const tone = current?.kind === 'confirm' || current?.kind === 'choose' ? current.options.tone : undefined;
+
+  if (current?.kind === 'choose') {
+    const c = current.options;
+    return (
+      <Modal open onClose={() => finish(false)} labelledBy="dlg-title">
+        <div className="dialog-body">
+          <DialogHeader id="dlg-title" icon={c.icon ?? 'info'} tone={c.tone === 'danger' ? 'danger' : c.tone === 'warning' ? 'warning' : undefined} title={c.title} text={c.text} />
+          {c.details?.length ? (
+            <div className="dialog-details selectable">
+              {c.details.slice(0, 6).map((d) => (
+                <div key={d} className="truncate">
+                  {d}
+                </div>
+              ))}
+              {c.details.length > 6 ? <div className="faint">e mais {c.details.length - 6}…</div> : null}
+            </div>
+          ) : null}
+          <div className="choose-list">
+            {c.options.map((op) => (
+              <button
+                key={op.id}
+                type="button"
+                className={`choose-item ${op.tone === 'danger' ? 'danger' : ''} ${op.tone === 'primary' ? 'primary' : ''}`}
+                data-autofocus={op.tone === 'primary' ? true : undefined}
+                onClick={() => {
+                  current.resolve(op.id);
+                  close();
+                }}
+              >
+                <span className="choose-label">{op.label}</span>
+                {op.description ? <span className="choose-desc">{op.description}</span> : null}
+              </button>
+            ))}
+          </div>
+        </div>
+        <div className="dialog-footer">
+          <button type="button" className="btn" onClick={() => finish(false)}>
+            Cancelar
+          </button>
+        </div>
+      </Modal>
+    );
+  }
 
   return (
     <Modal open={!!current} onClose={() => finish(false)} labelledBy="dlg-title">
@@ -210,7 +255,7 @@ export function DialogHost() {
               {current.kind === 'confirm' ? (current.options.cancelLabel ?? 'Cancelar') : 'Cancelar'}
             </button>
             <button type="submit" className={`btn ${tone === 'danger' ? 'btn-danger' : 'btn-primary'}`} data-autofocus>
-              {o.confirmLabel ?? (current.kind === 'prompt' ? 'Salvar' : 'Confirmar')}
+              {('confirmLabel' in o ? o.confirmLabel : undefined) ?? (current.kind === 'prompt' ? 'Salvar' : 'Confirmar')}
             </button>
           </div>
         </form>

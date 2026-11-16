@@ -19,6 +19,8 @@ export interface NavParams {
   path?: string;
   paths?: string[];
   tab?: string;
+  /** Texto de busca inicial (ex.: pesquisar nas subpastas). */
+  text?: string;
   autoStart?: boolean;
   /** Muda a cada navegação para que a página reaja mesmo com os mesmos parâmetros. */
   nonce?: number;

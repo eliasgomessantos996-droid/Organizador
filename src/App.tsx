@@ -13,14 +13,20 @@ import { applyAppearance, resolveMotion, watchSystemAppearance } from './lib/the
 import { showWindow } from './lib/platform';
 import { Placeholder } from './pages/Placeholder';
 import { Inicio } from './pages/Inicio';
+import { Explorer } from './pages/explorer/Explorer';
+import { Organizer } from './pages/organizer/Organizer';
+import { DragLayer } from './components/DragLayer';
+import { TasksPanel } from './components/TasksPanel';
+import { wireTaskProgress } from './store/tasks';
+import { usePlaceCommands, useProtectedSync } from './lib/appHooks';
 
 // Atalho usado pelos testes visuais no navegador (somente em desenvolvimento).
 if (import.meta.env.DEV) (window as unknown as { __go: typeof useNav.getState extends () => infer S ? S extends { go: infer G } ? G : never : never }).__go = useNav.getState().go;
 
 const PAGES: Record<PageId, ComponentType> = {
   inicio: Inicio,
-  explorador: () => <Placeholder icon="folder-open" title="Explorador" />,
-  organizador: () => <Placeholder icon="layers" title="Organizador" />,
+  explorador: Explorer,
+  organizador: Organizer,
   duplicados: () => <Placeholder icon="copies" title="Duplicados" />,
   mapa: () => <Placeholder icon="treemap" title="Mapa de espaço" />,
   regras: () => <Placeholder icon="wand" title="Regras automáticas" />,
@@ -52,8 +58,12 @@ export default function App() {
 
   // Mostra a janela só depois do primeiro desenho (sem tela branca).
   useEffect(() => {
+    wireTaskProgress();
     requestAnimationFrame(() => void showWindow());
   }, []);
+
+  usePlaceCommands();
+  useProtectedSync();
 
   // Atalhos globais e bloqueio de comportamentos de navegador.
   useEffect(() => {
@@ -104,6 +114,7 @@ export default function App() {
               <Page />
             </motion.div>
           </AnimatePresence>
+          <TasksPanel />
         </main>
       </div>
       <MenuHost />
@@ -111,6 +122,7 @@ export default function App() {
       <CommandPalette />
       <ToastHost />
       <TooltipHost />
+      <DragLayer />
     </MotionConfig>
   );
 }
