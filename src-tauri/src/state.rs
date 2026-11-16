@@ -1,5 +1,6 @@
 //! Estado compartilhado do aplicativo (protegido para acesso entre threads).
 
+use organizador_core::cleanup::Cleaner;
 use organizador_core::health::HealthMonitor;
 use organizador_core::progress::CancelFlag;
 use organizador_core::query::QueryResult;
@@ -20,6 +21,7 @@ pub struct AppState {
     pub protection: Protection,
     pub trash: TrashCache,
     pub health: HealthMonitor,
+    pub cleaner: Cleaner,
     tasks: Mutex<HashMap<String, CancelFlag>>,
     scans: Mutex<HashMap<String, Arc<ScanSlot>>>,
 }

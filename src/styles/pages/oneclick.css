@@ -1,0 +1,340 @@
+/* One Click Optimize */
+.oneclick {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(300px, 1fr);
+  gap: 16px;
+}
+
+.oneclick-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+  padding: 40px 24px 32px;
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 30%, var(--accent-soft), transparent 60%),
+    var(--surface);
+}
+
+.orb {
+  position: relative;
+  width: 236px;
+  height: 236px;
+  display: grid;
+  place-items: center;
+}
+
+.orb-halo {
+  position: absolute;
+  inset: -18px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--accent-glow), transparent 68%);
+  opacity: 0.55;
+  animation: orb-breathe 3.2s ease-in-out infinite;
+}
+
+.orb-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, #2dd4bf, #38bdf8, #6366f1, #a855f7, #2dd4bf);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 10px), #000 calc(100% - 9px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 10px), #000 calc(100% - 9px));
+  opacity: 0.85;
+  animation: org-spin 9s linear infinite;
+}
+
+.orb-analyzing .orb-ring,
+.orb-cleaning .orb-ring {
+  animation-duration: 1.4s;
+  opacity: 1;
+}
+
+.orb-done .orb-ring {
+  background: conic-gradient(from 0deg, #0ca30c, #2dd4bf, #0ca30c);
+  animation-duration: 6s;
+}
+
+.orb-core {
+  position: relative;
+  width: 196px;
+  height: 196px;
+  border-radius: 50%;
+  border: none;
+  background: var(--brand-gradient);
+  color: var(--on-accent);
+  box-shadow:
+    0 24px 50px -18px var(--accent-glow),
+    inset 0 2px 0 rgba(255, 255, 255, 0.25),
+    inset 0 -14px 30px rgba(0, 0, 0, 0.12);
+  display: grid;
+  place-items: center;
+  transition: transform 260ms var(--ease-spring), filter var(--dur) ease, box-shadow var(--dur) ease;
+}
+
+.orb-core:hover:not(:disabled) {
+  transform: scale(1.04);
+  filter: brightness(1.06);
+}
+
+.orb-core:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+.orb-core:disabled {
+  cursor: default;
+}
+
+.orb-done .orb-core {
+  background: linear-gradient(135deg, #0ca30c, #14b8a6);
+  color: #ffffff;
+}
+
+.orb-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.orb-label {
+  font-family: var(--font-brand);
+  font-weight: 800;
+  font-size: 17px;
+  letter-spacing: -0.01em;
+}
+
+.orb-num {
+  font-size: 36px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.orb-num small {
+  font-size: 16px;
+  margin-left: 4px;
+  font-weight: 700;
+  opacity: 0.85;
+}
+
+.orb-idle .orb-bolt {
+  animation: org-flash 2.6s ease-in-out infinite;
+}
+
+@keyframes orb-breathe {
+  0%,
+  100% {
+    transform: scale(0.94);
+    opacity: 0.4;
+  }
+  50% {
+    transform: scale(1.04);
+    opacity: 0.7;
+  }
+}
+
+.burst {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.burst-dot {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  color: var(--status-good);
+  animation: burst-fly 900ms var(--ease-out) both;
+}
+
+.burst-dot:nth-child(3n) {
+  color: #2dd4bf;
+}
+
+.burst-dot:nth-child(3n + 1) {
+  color: #facc15;
+}
+
+@keyframes burst-fly {
+  0% {
+    transform: rotate(var(--a)) translateX(0) scale(0.2);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(var(--a)) translateX(var(--d)) scale(1);
+    opacity: 0;
+  }
+}
+
+.oneclick-under {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+  min-height: 150px;
+}
+
+.profile-pick {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.profile-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 16px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text-2);
+  font-weight: 650;
+  transition: border-color var(--dur) ease, color var(--dur) ease, background var(--dur) ease;
+}
+
+.profile-card:hover {
+  color: var(--text);
+  border-color: var(--border-strong);
+}
+
+.profile-card.active {
+  color: var(--accent-text);
+  border-color: color-mix(in srgb, var(--accent) 50%, transparent);
+  background: var(--accent-soft);
+}
+
+.profile-dot {
+  position: absolute;
+  left: 50%;
+  bottom: -5px;
+  width: 18px;
+  height: 3px;
+  margin-left: -9px;
+  border-radius: 3px;
+  background: var(--brand-gradient);
+}
+
+.oneclick-desc {
+  max-width: 460px;
+}
+
+.oneclick-phase {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.done-headline {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.done-num {
+  font-size: 44px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+.done-unit {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-2);
+}
+
+.done-stats {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 18px;
+  font-size: 13px;
+}
+
+.done-stats > div {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.score-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  font-size: 12.5px;
+}
+
+.oneclick-steps {
+  display: flex;
+  flex-direction: column;
+}
+
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  max-height: 440px;
+  overflow-y: auto;
+}
+
+.step {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 6px;
+  border-radius: 8px;
+  font-size: 13px;
+  transition: background var(--dur) ease;
+}
+
+.step.active {
+  background: var(--accent-soft);
+}
+
+.step-mark {
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border-strong);
+  color: var(--accent-text);
+  flex: none;
+}
+
+.step.done .step-mark {
+  background: var(--status-good);
+  border-color: var(--status-good);
+  color: #ffffff;
+}
+
+.step.active .step-mark {
+  border-color: transparent;
+}
+
+.oneclick-opt {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+  font-size: 13px;
+  cursor: pointer;
+}
+
+@media (max-width: 1150px) {
+  .oneclick {
+    grid-template-columns: 1fr;
+  }
+}

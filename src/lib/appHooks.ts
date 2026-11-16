@@ -44,3 +44,33 @@ export function useProtectedSync() {
     void api.setProtectedPaths(protectedPaths).catch(() => {});
   }, [protectedPaths]);
 }
+
+/**
+ * Limpeza automática ao abrir o app (diária, semanal ou mensal, nas Configurações).
+ * Por segurança, nunca usa o perfil Completo: arquivos pessoais não são tocados.
+ */
+export function useAutoClean() {
+  useEffect(() => {
+    const s = useSettings.getState();
+    if (s.autoClean === 'desligada') return;
+    const days = { diaria: 1, semanal: 7, mensal: 30 }[s.autoClean];
+    if (Date.now() - s.lastAutoClean < days * 86_400_000) return;
+    const t = window.setTimeout(async () => {
+      const { profileTargets, cleanOptions, runCleanup } = await import('./cleanup');
+      const { toast } = await import('../store/toasts');
+      const { formatBytes } = await import('./format');
+      const { newTaskId } = await import('./api');
+      const profile = s.oneClickProfile === 'completo' ? 'equilibrado' : s.oneClickProfile;
+      try {
+        const reports = await api.cleanupAnalyze(newTaskId(), profileTargets(profile), cleanOptions());
+        const ids = reports.filter((r) => r.files > 0 || r.id === 'lixeira').map((r) => r.id);
+        const r = ids.length ? await runCleanup(ids, 'auto', { silent: true }) : null;
+        useSettings.getState().set({ lastAutoClean: Date.now() });
+        if (r && r.freed > 0) toast.good('Limpeza automática concluída', `${formatBytes(r.freed)} liberados sem você precisar fazer nada.`);
+      } catch {
+        /* tenta de novo na próxima abertura */
+      }
+    }, 8000);
+    return () => window.clearTimeout(t);
+  }, []);
+}

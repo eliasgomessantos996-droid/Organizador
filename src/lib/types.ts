@@ -309,3 +309,57 @@ export interface RecycleInfo {
   bytes: number;
   items: number;
 }
+
+/* ───────────── Limpeza ───────────── */
+
+export interface CleanOptions {
+  tempMinAgeHours: number;
+  oldDownloadsDays: number;
+  oldInstallersDays: number;
+}
+
+export type CleanGroup = 'sistema' | 'navegadores' | 'aplicativos' | 'arquivos';
+
+export interface TargetInfo {
+  id: string;
+  name: string;
+  description: string;
+  group: CleanGroup;
+  icon: string;
+  risk: 'seguro' | 'moderado';
+  needsAdmin: boolean;
+  toTrash: boolean;
+  available: boolean;
+}
+
+export interface CleanItem {
+  path: string;
+  size: number;
+  modified: number;
+  isDir: boolean;
+}
+
+export interface TargetReport {
+  id: string;
+  files: number;
+  bytes: number;
+  denied: number;
+  sample: CleanItem[];
+}
+
+export interface TargetResult {
+  id: string;
+  name: string;
+  freed: number;
+  deleted: number;
+  failed: number;
+  error: string | null;
+}
+
+export interface CleanReport {
+  freed: number;
+  deleted: number;
+  failed: number;
+  targets: TargetResult[];
+  cancelled: boolean;
+}

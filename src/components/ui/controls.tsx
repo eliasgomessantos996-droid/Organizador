@@ -257,10 +257,13 @@ export function AnimatedNumber({
   value,
   format = (v) => Math.round(v).toLocaleString('pt-BR'),
   duration = 800,
+  render,
 }: {
   value: number;
   format?: (v: number) => string;
   duration?: number;
+  /** Desenho personalizado a cada quadro (ex.: número e unidade separados). */
+  render?: (v: number) => ReactNode;
 }) {
   const [shown, setShown] = useState(value);
   const fromRef = useRef(value);
@@ -284,7 +287,7 @@ export function AnimatedNumber({
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
   }, [value, duration]);
-  return <>{format(shown)}</>;
+  return <>{render ? render(shown) : format(shown)}</>;
 }
 
 /* ───────────── Bloco de estatística ───────────── */

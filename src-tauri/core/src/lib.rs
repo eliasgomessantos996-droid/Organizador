@@ -12,3 +12,4 @@ pub mod platform;
 pub mod sys;
 pub mod trashbin;
 pub mod health;
+pub mod cleanup;

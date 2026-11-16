@@ -5,7 +5,7 @@ mod commands;
 mod emit;
 mod state;
 
-use commands::{files, scan, system, trash};
+use commands::{cleanup, files, scan, system, trash};
 use state::AppState;
 use std::time::Duration;
 use tauri::Manager;
@@ -90,6 +90,11 @@ fn main() {
             system::self_autostart_set,
             system::recycle_info,
             system::empty_recycle_bin,
+            cleanup::cleanup_targets,
+            cleanup::cleanup_analyze,
+            cleanup::cleanup_items,
+            cleanup::cleanup_exclude,
+            cleanup::cleanup_run,
         ])
         .run(tauri::generate_context!())
         .expect("erro ao iniciar o Organizador");

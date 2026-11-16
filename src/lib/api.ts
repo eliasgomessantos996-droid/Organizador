@@ -2,6 +2,11 @@ import { convertFileSrc, invoke } from '@tauri-apps/api/core';
 import { isTauri } from './platform';
 import type {
   AppInfo,
+  CleanItem,
+  CleanOptions,
+  CleanReport,
+  TargetInfo,
+  TargetReport,
   BatteryInfo,
   HealthSnapshot,
   InstalledProgram,
@@ -36,6 +41,7 @@ async function loadMock() {
   if (!mock) {
     mock = await import('./mock');
     await import('./mockSystem');
+    await import('./mockCleanup');
   }
   return mock;
 }
@@ -139,6 +145,12 @@ export const api = {
   selfAutostartSet: (enabled: boolean) => call<void>('self_autostart_set', { enabled }),
   recycleInfo: () => call<RecycleInfo>('recycle_info'),
   emptyRecycleBin: () => call<RecycleInfo>('empty_recycle_bin'),
+
+  cleanupTargets: (options: CleanOptions) => call<TargetInfo[]>('cleanup_targets', { options }),
+  cleanupAnalyze: (taskId: string, ids: string[], options: CleanOptions) => call<TargetReport[]>('cleanup_analyze', { taskId, ids, options }),
+  cleanupItems: (id: string, limit: number) => call<CleanItem[]>('cleanup_items', { id, limit }),
+  cleanupExclude: (id: string, paths: string[]) => call<void>('cleanup_exclude', { id, paths }),
+  cleanupRun: (taskId: string, ids: string[], options: CleanOptions) => call<CleanReport>('cleanup_run', { taskId, ids, options }),
 };
 
 /** Mensagem legível de um erro vindo do backend. */
