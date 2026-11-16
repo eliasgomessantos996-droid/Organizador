@@ -177,3 +177,16 @@ pub async fn save_text_file(path: String, contents: String) -> Result<(), String
     })
     .await?
 }
+
+/// Lê um arquivo de texto pequeno (importar configurações).
+#[tauri::command]
+pub async fn read_text_file(path: String) -> Result<String, String> {
+    blocking(move || {
+        let md = std::fs::metadata(&path).map_err(|e| fsops::io_msg(&e))?;
+        if md.len() > 5 * 1024 * 1024 {
+            return Err("O arquivo é grande demais.".to_string());
+        }
+        std::fs::read_to_string(&path).map_err(|e| fsops::io_msg(&e))
+    })
+    .await?
+}

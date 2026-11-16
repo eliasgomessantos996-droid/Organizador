@@ -1725,3 +1725,99 @@ body.dragging * {
 .sparkline {
   flex-shrink: 0;
 }
+
+/* ───────────── Gráfico de colunas ───────────── */
+.col-chart {
+  position: relative;
+  width: 100%;
+}
+
+.col-plot {
+  position: absolute;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  padding: 0 6px;
+}
+
+.col-slot {
+  position: relative;
+  flex: 1;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  cursor: default;
+}
+
+.col-slot:hover .col-bar {
+  filter: brightness(1.12);
+}
+
+.col-bar {
+  width: min(42px, 70%);
+  border-radius: 4px 4px 0 0;
+}
+
+.col-base {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--axis);
+}
+
+.col-labels {
+  position: absolute;
+  left: 0;
+  right: 0;
+  display: flex;
+  gap: 12px;
+  padding: 0 6px;
+  font-size: 11.5px;
+  color: var(--text-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.col-labels span {
+  flex: 1;
+  text-align: center;
+}
+
+.col-tip {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4px 8px;
+  border-radius: 7px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-md);
+  font-size: 11.5px;
+  white-space: nowrap;
+  z-index: 3;
+}
+
+.col-tip span {
+  color: var(--text-3);
+}
+
+/* Campos que já têm destaque próprio não usam o anel de foco global. */
+.palette-input input:focus-visible,
+.address-input:focus-visible,
+.ft-rename:focus-visible,
+.fg-rename:focus-visible {
+  box-shadow: none;
+  outline: none;
+}
+
+.ft-rename:focus-visible,
+.fg-rename:focus-visible {
+  box-shadow: var(--focus-ring);
+}

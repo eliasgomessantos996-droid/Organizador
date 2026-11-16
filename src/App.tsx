@@ -11,7 +11,6 @@ import { useNav, type PageId } from './store/nav';
 import { useSettings } from './store/settings';
 import { applyAppearance, resolveMotion, watchSystemAppearance } from './lib/theme';
 import { showWindow } from './lib/platform';
-import { Placeholder } from './pages/Placeholder';
 import { Inicio } from './pages/Inicio';
 import { Explorer } from './pages/explorer/Explorer';
 import { Organizer } from './pages/organizer/Organizer';
@@ -22,8 +21,11 @@ import { Duplicates } from './pages/duplicates/Duplicates';
 import { DiskMap } from './pages/diskmap/DiskMap';
 import { Rules } from './pages/rules/Rules';
 import { Startup } from './pages/startup/Startup';
+import { History } from './pages/history/History';
+import { Settings } from './pages/settings/Settings';
 import { useHealthPolling } from './store/health';
 import { DragLayer } from './components/DragLayer';
+import { Welcome } from './components/Welcome';
 import { TasksPanel } from './components/TasksPanel';
 import { wireTaskProgress } from './store/tasks';
 import { useAutoClean, usePlaceCommands, useProtectedSync, useRulesOnStart } from './lib/appHooks';
@@ -42,8 +44,8 @@ const PAGES: Record<PageId, ComponentType> = {
   limpeza: Cleanup,
   saude: Health,
   inicializacao: Startup,
-  historico: () => <Placeholder icon="history" title="Histórico" />,
-  configuracoes: () => <Placeholder icon="settings" title="Configurações" />,
+  historico: History,
+  configuracoes: Settings,
 };
 
 const pageVariants = {
@@ -135,6 +137,7 @@ export default function App() {
       <ToastHost />
       <TooltipHost />
       <DragLayer />
+      <Welcome />
     </MotionConfig>
   );
 }

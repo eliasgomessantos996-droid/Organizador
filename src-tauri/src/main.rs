@@ -60,6 +60,7 @@ fn main() {
             files::check_protected,
             files::cancel_task,
             files::save_text_file,
+            files::read_text_file,
             scan::scan_start,
             scan::scan_query,
             scan::scan_summary,

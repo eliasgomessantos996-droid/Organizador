@@ -117,6 +117,7 @@ export const api = {
   checkProtected: (path: string) => call<string | null>('check_protected', { path }),
   cancelTask: (taskId: string) => call<boolean>('cancel_task', { taskId }),
   saveTextFile: (path: string, contents: string) => call<void>('save_text_file', { path, contents }),
+  readTextFile: (path: string) => call<string>('read_text_file', { path }),
 
   scanStart: (taskId: string, slot: string, roots: string[], options: ScanOptions) =>
     call<ScanStats>('scan_start', { taskId, slot, roots, options }),

@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import { useState as useReactState, type ReactNode } from 'react';
 import { motion } from 'motion/react';
 
 /**
@@ -96,4 +96,59 @@ export function MeterList({
       ))}
     </div>
   );
+}
+
+export interface Column {
+  key: string;
+  label: string;
+  value: number;
+  display: string;
+}
+
+/**
+ * Colunas de uma única série (uma cor, sem legenda: o título nomeia a série).
+ * Pontas superiores arredondadas de 4px apoiadas na linha de base; dica por coluna.
+ */
+export function ColumnChart({ data, height = 170, color = 'var(--series-1)', label }: { data: Column[]; height?: number; color?: string; label: string }) {
+  const max = Math.max(1, ...data.map((d) => d.value));
+  const top = 18;
+  const bottom = 26;
+  const plot = height - top - bottom;
+  const [hover, setHover] = useStateHover();
+  return (
+    <div className="col-chart" style={{ height }} role="img" aria-label={`${label}: ${data.map((d) => `${d.label} ${d.display}`).join(', ')}`}>
+      <div className="col-plot" style={{ top, height: plot }}>
+        {data.map((d, i) => {
+          const h = d.value > 0 ? Math.max(3, (d.value / max) * plot) : 0;
+          return (
+            <div key={d.key} className="col-slot" onMouseEnter={() => setHover(i)} onMouseLeave={() => setHover(null)}>
+              {hover === i ? (
+                <div className="col-tip">
+                  <strong>{d.display}</strong>
+                  <span>{d.label}</span>
+                </div>
+              ) : null}
+              <motion.div
+                className="col-bar"
+                style={{ background: color }}
+                initial={{ height: 0 }}
+                animate={{ height: h }}
+                transition={{ duration: 0.6, delay: i * 0.05, ease: [0.22, 1, 0.36, 1] }}
+              />
+            </div>
+          );
+        })}
+      </div>
+      <div className="col-base" style={{ top: top + plot }} />
+      <div className="col-labels" style={{ top: top + plot + 6 }}>
+        {data.map((d) => (
+          <span key={d.key}>{d.label}</span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function useStateHover() {
+  return useReactState<number | null>(null);
 }

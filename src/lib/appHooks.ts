@@ -33,6 +33,36 @@ export function usePlaceCommands() {
         run: () => go('explorador', { path: d.mount }),
       })),
       { id: 'action:undo', label: 'Desfazer a última operação', group: 'Ações', icon: 'undo', keywords: 'ctrl z voltar', run: () => void undoLast() },
+      { id: 'action:oneclick', label: 'Otimizar agora (One Click)', group: 'Ações', icon: 'bolt', keywords: 'limpar otimizar rapido', run: () => go('otimizar') },
+      {
+        id: 'action:empty-bin',
+        label: 'Esvaziar a Lixeira',
+        group: 'Ações',
+        icon: 'trash-x',
+        keywords: 'lixeira limpar esvaziar',
+        run: () => go('limpeza', { tab: 'lixeira' }),
+      },
+      {
+        id: 'action:trim',
+        label: 'Liberar memória RAM',
+        group: 'Ações',
+        icon: 'memory',
+        keywords: 'ram memoria liberar',
+        run: () => void import('./systemActions').then((m) => m.trimMemory()),
+      },
+      { id: 'action:forgotten', label: 'Procurar arquivos esquecidos', group: 'Ações', icon: 'clock', keywords: 'antigos sem uso velhos', run: () => go('limpeza', { tab: 'esquecidos' }) },
+      { id: 'action:programs', label: 'Desinstalar programas', group: 'Ações', icon: 'package', keywords: 'apps aplicativos remover', run: () => go('inicializacao', { tab: 'programas' }) },
+      { id: 'action:new-rule', label: 'Criar uma regra automática', group: 'Ações', icon: 'wand', keywords: 'organizar automatico', run: () => go('regras') },
+      ...drives
+        .filter((d) => !d.removable)
+        .map((d) => ({
+          id: `map:${d.mount}`,
+          label: `Analisar espaço de ${d.mount.replace(/\\$/, '')}`,
+          group: 'Ações',
+          icon: 'treemap' as const,
+          keywords: 'mapa espaco disco',
+          run: () => go('mapa', { path: d.mount, autoStart: true }),
+        })),
     ]);
   }, [special, drives, register]);
 }
