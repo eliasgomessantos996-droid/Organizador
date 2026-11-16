@@ -5,6 +5,7 @@ use organizador_core::health::HealthMonitor;
 use organizador_core::progress::CancelFlag;
 use organizador_core::query::QueryResult;
 use organizador_core::safety::Protection;
+use organizador_core::diskmap::Tree;
 use organizador_core::scan::ScanIndex;
 use organizador_core::trashbin::TrashCache;
 use std::collections::HashMap;
@@ -14,6 +15,8 @@ use std::sync::{Arc, Mutex, RwLock};
 pub struct ScanSlot {
     pub index: RwLock<ScanIndex>,
     pub cache: Mutex<Option<QueryResult>>,
+    /// Árvore de pastas do Mapa de espaço (calculada sob demanda).
+    pub tree: Mutex<Option<Arc<Tree>>>,
 }
 
 #[derive(Default)]
@@ -49,7 +52,7 @@ impl AppState {
     }
 
     pub fn put_scan(&self, slot: &str, index: ScanIndex) {
-        let s = Arc::new(ScanSlot { index: RwLock::new(index), cache: Mutex::new(None) });
+        let s = Arc::new(ScanSlot { index: RwLock::new(index), cache: Mutex::new(None), tree: Mutex::new(None) });
         self.scans.lock().unwrap_or_else(|e| e.into_inner()).insert(slot.to_string(), s);
     }
 

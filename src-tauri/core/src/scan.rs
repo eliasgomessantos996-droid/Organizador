@@ -157,6 +157,24 @@ impl ScanIndex {
         }
     }
 
+    /// Marca como removidos todos os arquivos de uma pasta (e subpastas).
+    pub fn mark_removed_under(&mut self, folder: &Path) -> u64 {
+        let target = normalize(folder);
+        let mut mask = vec![false; self.dirs.len()];
+        for i in 0..self.dirs.len() {
+            let d = &self.dirs[i];
+            mask[i] = (d.parent != NO_PARENT && mask[d.parent as usize]) || normalize(Path::new(&d.path)) == target;
+        }
+        let mut n = 0;
+        for f in self.files.iter_mut() {
+            if mask[f.dir as usize] && f.flags & F_REMOVED == 0 {
+                f.flags |= F_REMOVED;
+                n += 1;
+            }
+        }
+        n
+    }
+
     pub fn paths_of(&self, ids: &[u32]) -> Vec<String> {
         ids.iter()
             .filter(|&&i| (i as usize) < self.files.len())

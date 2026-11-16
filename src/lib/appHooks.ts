@@ -74,3 +74,24 @@ export function useAutoClean() {
     return () => window.clearTimeout(t);
   }, []);
 }
+
+/** Aplica as regras ativas ao abrir o app (opção nas Regras automáticas). */
+export function useRulesOnStart() {
+  useEffect(() => {
+    if (!useSettings.getState().runRulesOnStart) return;
+    const t = window.setTimeout(async () => {
+      const { useRules } = await import('../store/rules');
+      const rules = useRules.getState().rules.filter((r) => r.enabled);
+      if (!rules.length) return;
+      try {
+        const plan = await api.rulesPreview(rules);
+        if (!plan.length) return;
+        const { applyPlan } = await import('../pages/rules/Rules');
+        await applyPlan(plan, true);
+      } catch {
+        /* uma pasta de origem pode não existir mais; tenta na próxima abertura */
+      }
+    }, 5000);
+    return () => window.clearTimeout(t);
+  }, []);
+}

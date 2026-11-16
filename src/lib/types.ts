@@ -363,3 +363,77 @@ export interface CleanReport {
   targets: TargetResult[];
   cancelled: boolean;
 }
+
+/* ───────────── Duplicados, Mapa e Regras ───────────── */
+
+export interface DupOptions {
+  minSize: number;
+  categories: Category[];
+  includeHidden: boolean;
+}
+
+export interface DupGroup {
+  id: number;
+  size: number;
+  hash: string;
+  files: FileEntry[];
+}
+
+export interface DupResult {
+  groups: DupGroup[];
+  wasted: number;
+  duplicateFiles: number;
+  scannedFiles: number;
+  hashedBytes: number;
+  elapsedMs: number;
+  cancelled: boolean;
+}
+
+export interface MapNode {
+  id: string;
+  name: string;
+  path: string;
+  size: number;
+  files: number;
+  isDir: boolean;
+  category: Category | null;
+  children: MapNode[];
+}
+
+export interface RuleConditions {
+  categories: Category[];
+  extensions: string[];
+  nameContains: string;
+  olderThanDays: number | null;
+  minSize: number | null;
+  maxSize: number | null;
+}
+
+export type RuleAction = { type: 'move'; dest: string } | { type: 'copy'; dest: string } | { type: 'trash' };
+
+export interface Rule {
+  id: string;
+  name: string;
+  enabled: boolean;
+  source: string;
+  recursive: boolean;
+  conditions: RuleConditions;
+  action: RuleAction;
+}
+
+export interface PlannedAction {
+  ruleId: string;
+  ruleName: string;
+  from: string;
+  to: string | null;
+  action: 'move' | 'copy' | 'trash';
+  size: number;
+}
+
+export interface ApplyResult {
+  moved: DoneItem[];
+  copied: DoneItem[];
+  trashed: string[];
+  failed: FailedItem[];
+  bytes: number;
+}

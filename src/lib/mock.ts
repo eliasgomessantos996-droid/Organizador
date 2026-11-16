@@ -123,6 +123,8 @@ function buildDisk(): Map<string, Node> {
     ['arquivo_incompleto.crdownload', 140 * MB, 80, 80],
   ];
   for (const [n, s, a, u] of dl) add(downloads, file(n, Math.round(s), a, u));
+  add(desktop, { ...downloads.children!.get('contrato_aluguel_assinado.pdf')! });
+  add(desktop, { ...downloads.children!.get('wallpaper_montanhas_4k.jpg')!, name: 'wallpaper (1).jpg' });
   for (let i = 1; i <= 14; i++) add(downloads, file(`Captura de tela 2026-0${(i % 9) + 1}-1${i % 10} 10${i}233.png`, between(300, 2400) * 1024, between(10, 300)));
 
   // Documentos
@@ -155,9 +157,11 @@ function buildDisk(): Map<string, Node> {
   }
   const wall = add(pictures, dir('Wallpapers', 300));
   for (let i = 1; i <= 8; i++) add(wall, file(`papel de parede ${i}.jpg`, between(900, 9000) * 1024, between(100, 600)));
-  // Algumas fotos duplicadas
+  // Cópias de verdade (para o detector de duplicados ter o que encontrar)
   const dup = add(pictures, dir('Cópias do celular', 140));
-  for (let i = 1; i <= 10; i++) add(dup, file(`IMG_${2000 + i}.jpg`, 3_145_728 + i * 1000, 140));
+  const ferias = pictures.children!.get('férias 2025')!;
+  [...ferias.children!.values()].slice(0, 9).forEach((f) => add(dup, { ...f }));
+  for (let i = 1; i <= 4; i++) add(dup, file(`IMG_${2000 + i}.jpg`, 3_145_728 + i * 1000, 140));
 
   // Música
   for (const album of ['Clássicos do Rock', 'MPB Acústico', 'Lo-fi para estudar']) {
@@ -319,7 +323,7 @@ interface Slot {
   roots: string[];
   elapsedMs: number;
 }
-const slots = new Map<string, Slot>();
+export const slots = new Map<string, Slot>();
 
 function collect(path: string, n: Node, opts: { includeHidden?: boolean; skipSystem?: boolean }, out: FileEntry[]) {
   if (!n.isDir) return;
@@ -672,4 +676,4 @@ export function resetMockDisk() {
   disk = buildDisk();
 }
 
-export const mockInternals = { resolve, sizeOf, join, HOME, animateProgress, sleep, between, rnd, emit: (e: ProgressEvent) => emit(e) };
+export const mockInternals = { resolve, sizeOf, join, toEntry, collect, HOME, animateProgress, sleep, between, rnd, emit: (e: ProgressEvent) => emit(e) };

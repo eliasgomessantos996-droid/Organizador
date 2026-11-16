@@ -13,3 +13,6 @@ pub mod sys;
 pub mod trashbin;
 pub mod health;
 pub mod cleanup;
+pub mod diskmap;
+pub mod duplicates;
+pub mod rules;

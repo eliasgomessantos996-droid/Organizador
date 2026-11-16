@@ -2,6 +2,12 @@ import { convertFileSrc, invoke } from '@tauri-apps/api/core';
 import { isTauri } from './platform';
 import type {
   AppInfo,
+  ApplyResult,
+  DupOptions,
+  DupResult,
+  MapNode,
+  PlannedAction,
+  Rule,
   CleanItem,
   CleanOptions,
   CleanReport,
@@ -42,6 +48,7 @@ async function loadMock() {
     mock = await import('./mock');
     await import('./mockSystem');
     await import('./mockCleanup');
+    await import('./mockTools');
   }
   return mock;
 }
@@ -151,6 +158,12 @@ export const api = {
   cleanupItems: (id: string, limit: number) => call<CleanItem[]>('cleanup_items', { id, limit }),
   cleanupExclude: (id: string, paths: string[]) => call<void>('cleanup_exclude', { id, paths }),
   cleanupRun: (taskId: string, ids: string[], options: CleanOptions) => call<CleanReport>('cleanup_run', { taskId, ids, options }),
+
+  dupFind: (taskId: string, roots: string[], options: DupOptions) => call<DupResult>('dup_find', { taskId, roots, options }),
+  mapNode: (path: string | null, depth: number, maxChildren: number) => call<MapNode>('map_node', { path, depth, maxChildren }),
+  scanRemoveDir: (slot: string, path: string) => call<ScanStats>('scan_remove_dir', { slot, path }),
+  rulesPreview: (rules: Rule[]) => call<PlannedAction[]>('rules_preview', { rules }),
+  rulesApply: (taskId: string, plan: PlannedAction[]) => call<ApplyResult>('rules_apply', { taskId, plan }),
 };
 
 /** Mensagem legível de um erro vindo do backend. */

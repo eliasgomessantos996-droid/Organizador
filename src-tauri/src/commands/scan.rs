@@ -81,6 +81,7 @@ pub async fn scan_remove(app: AppHandle, slot: String, ids: Vec<u32>) -> Result<
         let mut index = s.index.write().unwrap_or_else(|e| e.into_inner());
         index.mark_removed(&ids);
         *s.cache.lock().unwrap_or_else(|e| e.into_inner()) = None;
+        *s.tree.lock().unwrap_or_else(|e| e.into_inner()) = None;
         Ok(index.stats())
     })
     .await?
@@ -94,4 +95,18 @@ pub fn scan_stats(state: State<'_, AppState>, slot: String) -> Option<ScanStats>
 #[tauri::command]
 pub fn scan_dispose(state: State<'_, AppState>, slot: String) {
     state.drop_scan(&slot);
+}
+
+/// Remove do índice uma pasta inteira (após excluí-la pelo Mapa de espaço).
+#[tauri::command]
+pub async fn scan_remove_dir(app: AppHandle, slot: String, path: String) -> Result<ScanStats, String> {
+    blocking(move || {
+        let s = app.state::<AppState>().scan(&slot)?;
+        let mut index = s.index.write().unwrap_or_else(|e| e.into_inner());
+        index.mark_removed_under(std::path::Path::new(&path));
+        *s.cache.lock().unwrap_or_else(|e| e.into_inner()) = None;
+        *s.tree.lock().unwrap_or_else(|e| e.into_inner()) = None;
+        Ok(index.stats())
+    })
+    .await?
 }

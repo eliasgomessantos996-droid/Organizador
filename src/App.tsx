@@ -18,11 +18,15 @@ import { Organizer } from './pages/organizer/Organizer';
 import { Health } from './pages/health/Health';
 import { Cleanup } from './pages/cleanup/Cleanup';
 import { OneClick } from './pages/oneclick/OneClick';
+import { Duplicates } from './pages/duplicates/Duplicates';
+import { DiskMap } from './pages/diskmap/DiskMap';
+import { Rules } from './pages/rules/Rules';
+import { Startup } from './pages/startup/Startup';
 import { useHealthPolling } from './store/health';
 import { DragLayer } from './components/DragLayer';
 import { TasksPanel } from './components/TasksPanel';
 import { wireTaskProgress } from './store/tasks';
-import { useAutoClean, usePlaceCommands, useProtectedSync } from './lib/appHooks';
+import { useAutoClean, usePlaceCommands, useProtectedSync, useRulesOnStart } from './lib/appHooks';
 
 // Atalho usado pelos testes visuais no navegador (somente em desenvolvimento).
 if (import.meta.env.DEV) (window as unknown as { __go: typeof useNav.getState extends () => infer S ? S extends { go: infer G } ? G : never : never }).__go = useNav.getState().go;
@@ -31,13 +35,13 @@ const PAGES: Record<PageId, ComponentType> = {
   inicio: Inicio,
   explorador: Explorer,
   organizador: Organizer,
-  duplicados: () => <Placeholder icon="copies" title="Duplicados" />,
-  mapa: () => <Placeholder icon="treemap" title="Mapa de espaço" />,
-  regras: () => <Placeholder icon="wand" title="Regras automáticas" />,
+  duplicados: Duplicates,
+  mapa: DiskMap,
+  regras: Rules,
   otimizar: OneClick,
   limpeza: Cleanup,
   saude: Health,
-  inicializacao: () => <Placeholder icon="rocket" title="Inicialização e apps" />,
+  inicializacao: Startup,
   historico: () => <Placeholder icon="history" title="Histórico" />,
   configuracoes: () => <Placeholder icon="settings" title="Configurações" />,
 };
@@ -69,6 +73,7 @@ export default function App() {
   usePlaceCommands();
   useProtectedSync();
   useAutoClean();
+  useRulesOnStart();
   // Mantém a nota de saúde do menu lateral atualizada em segundo plano.
   useHealthPolling(15000);
 

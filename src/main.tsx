@@ -15,6 +15,7 @@ import './styles/pages/organizer.css';
 import './styles/pages/health.css';
 import './styles/pages/cleanup.css';
 import './styles/pages/oneclick.css';
+import './styles/pages/tools.css';
 import { useSettings } from './store/settings';
 import { applyAppearance } from './lib/theme';
 import App from './App';

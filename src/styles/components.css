@@ -1716,3 +1716,12 @@ body.dragging * {
   color: var(--text-3);
   font-size: 10.5px;
 }
+
+/* Barras e medidores nunca encolhem dentro de colunas flexíveis. */
+.seg-bar,
+.meter,
+.progress,
+.ml-track,
+.sparkline {
+  flex-shrink: 0;
+}
