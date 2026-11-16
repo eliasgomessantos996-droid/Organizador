@@ -1,0 +1,23 @@
+# Dependências e builds
+node_modules/
+dist/
+dist-ssr/
+*.local
+
+# Rust / Tauri
+src-tauri/target/
+src-tauri/gen/schemas/
+
+# Logs e lixo de editores
+*.log
+npm-debug.log*
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
+.idea/
+
+# Saídas de testes visuais
+screenshots/
+playwright-report/
+test-results/
