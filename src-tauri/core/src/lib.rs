@@ -11,3 +11,4 @@ pub mod scan;
 pub mod platform;
 pub mod sys;
 pub mod trashbin;
+pub mod health;

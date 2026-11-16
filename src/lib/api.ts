@@ -2,6 +2,14 @@ import { convertFileSrc, invoke } from '@tauri-apps/api/core';
 import { isTauri } from './platform';
 import type {
   AppInfo,
+  BatteryInfo,
+  HealthSnapshot,
+  InstalledProgram,
+  JunkInfo,
+  ProcessInfo,
+  RecycleInfo,
+  StartupItem,
+  TrimReport,
   ClipboardFiles,
   Conflict,
   DeleteReport,
@@ -25,7 +33,10 @@ type Handler = (cmd: string, args: Record<string, unknown>) => Promise<unknown>;
 let mock: { handle: Handler; setEmitter: (fn: (e: ProgressEvent) => void) => void } | null = null;
 
 async function loadMock() {
-  if (!mock) mock = await import('./mock');
+  if (!mock) {
+    mock = await import('./mock');
+    await import('./mockSystem');
+  }
   return mock;
 }
 
@@ -110,6 +121,24 @@ export const api = {
   trashPurge: (ids: string[]) => call<TrashActionReport>('trash_purge', { ids }),
   trashRestorePaths: (paths: string[], since: number) => call<TrashActionReport>('trash_restore_paths', { paths, since }),
   undoMoves: (pairs: [string, string][]) => call<OpReport>('undo_moves', { pairs }),
+
+  healthSnapshot: () => call<HealthSnapshot>('health_snapshot'),
+  topProcesses: (limit: number) => call<ProcessInfo[]>('top_processes', { limit }),
+  killProcess: (pid: number) => call<void>('kill_process', { pid }),
+  trimMemory: () => call<TrimReport>('trim_memory'),
+  junkEstimate: (force: boolean) => call<JunkInfo>('junk_estimate', { force }),
+  batteryInfo: () => call<BatteryInfo | null>('battery_info'),
+  startupList: () => call<StartupItem[]>('startup_list'),
+  startupSetEnabled: (id: string, enabled: boolean) => call<void>('startup_set_enabled', { id, enabled }),
+  programsList: () => call<InstalledProgram[]>('programs_list'),
+  programUninstall: (id: string) => call<void>('program_uninstall', { id }),
+  launchTool: (id: string) => call<void>('launch_tool', { id }),
+  isElevated: () => call<boolean>('is_elevated'),
+  relaunchAdmin: () => call<void>('relaunch_admin'),
+  selfAutostartGet: () => call<boolean>('self_autostart_get'),
+  selfAutostartSet: (enabled: boolean) => call<void>('self_autostart_set', { enabled }),
+  recycleInfo: () => call<RecycleInfo>('recycle_info'),
+  emptyRecycleBin: () => call<RecycleInfo>('empty_recycle_bin'),
 };
 
 /** Mensagem legível de um erro vindo do backend. */

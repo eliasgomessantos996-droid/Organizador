@@ -12,6 +12,7 @@ import './styles/pages/home.css';
 import './styles/filetable.css';
 import './styles/pages/explorer.css';
 import './styles/pages/organizer.css';
+import './styles/pages/health.css';
 import { useSettings } from './store/settings';
 import { applyAppearance } from './lib/theme';
 import App from './App';

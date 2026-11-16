@@ -206,3 +206,106 @@ export interface TrashActionReport {
   done: number;
   failed: string[];
 }
+
+/* ───────────── Saúde e sistema ───────────── */
+
+export interface CpuInfo {
+  usage: number;
+  brand: string;
+  cores: number;
+  physicalCores: number | null;
+  frequencyMhz: number;
+  perCore: number[];
+}
+
+export interface MemoryInfo {
+  total: number;
+  used: number;
+  available: number;
+  swapTotal: number;
+  swapUsed: number;
+}
+
+export interface SystemInfo {
+  os: string;
+  osVersion: string;
+  hostName: string;
+  arch: string;
+  uptimeSecs: number;
+  bootTime: number;
+  processCount: number;
+  elevated: boolean;
+}
+
+export interface HealthSnapshot {
+  cpu: CpuInfo;
+  memory: MemoryInfo;
+  disks: DriveInfo[];
+  system: SystemInfo;
+  takenAt: number;
+}
+
+export interface ProcessInfo {
+  pid: number;
+  name: string;
+  cpu: number;
+  memory: number;
+  exe: string | null;
+  protected: boolean;
+}
+
+export interface JunkInfo {
+  recycleBytes: number;
+  recycleItems: number;
+  tempBytes: number;
+  tempFiles: number;
+}
+
+export interface BatteryInfo {
+  percent: number;
+  charging: boolean;
+  plugged: boolean;
+  health: number | null;
+  cycles: number | null;
+  vendor: string | null;
+  model: string | null;
+  minutesLeft: number | null;
+}
+
+export interface TrimReport {
+  processes: number;
+  freedBytes: number;
+  beforeAvailable: number;
+  afterAvailable: number;
+}
+
+export interface StartupItem {
+  id: string;
+  name: string;
+  command: string;
+  path: string | null;
+  location: string;
+  scope: 'user' | 'machine';
+  enabled: boolean;
+  needsAdmin: boolean;
+  publisher: string | null;
+  description: string | null;
+  exists: boolean;
+}
+
+export interface InstalledProgram {
+  id: string;
+  name: string;
+  publisher: string | null;
+  version: string | null;
+  installDate: string | null;
+  size: number | null;
+  location: string | null;
+  canUninstall: boolean;
+  scope: 'user' | 'machine';
+}
+
+export interface RecycleInfo {
+  bytes: number;
+  items: number;
+}

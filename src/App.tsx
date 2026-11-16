@@ -15,6 +15,8 @@ import { Placeholder } from './pages/Placeholder';
 import { Inicio } from './pages/Inicio';
 import { Explorer } from './pages/explorer/Explorer';
 import { Organizer } from './pages/organizer/Organizer';
+import { Health } from './pages/health/Health';
+import { useHealthPolling } from './store/health';
 import { DragLayer } from './components/DragLayer';
 import { TasksPanel } from './components/TasksPanel';
 import { wireTaskProgress } from './store/tasks';
@@ -32,7 +34,7 @@ const PAGES: Record<PageId, ComponentType> = {
   regras: () => <Placeholder icon="wand" title="Regras automáticas" />,
   otimizar: () => <Placeholder icon="bolt" title="One Click Optimize" />,
   limpeza: () => <Placeholder icon="broom" title="Limpeza" />,
-  saude: () => <Placeholder icon="heart-pulse" title="Saúde do PC" />,
+  saude: Health,
   inicializacao: () => <Placeholder icon="rocket" title="Inicialização e apps" />,
   historico: () => <Placeholder icon="history" title="Histórico" />,
   configuracoes: () => <Placeholder icon="settings" title="Configurações" />,
@@ -64,6 +66,8 @@ export default function App() {
 
   usePlaceCommands();
   useProtectedSync();
+  // Mantém a nota de saúde do menu lateral atualizada em segundo plano.
+  useHealthPolling(15000);
 
   // Atalhos globais e bloqueio de comportamentos de navegador.
   useEffect(() => {
