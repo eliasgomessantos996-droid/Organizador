@@ -1,0 +1,269 @@
+/* Página inicial */
+.home-hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  padding: 26px 28px;
+  overflow: hidden;
+  background:
+    var(--brand-gradient-soft),
+    var(--surface);
+}
+
+.home-hero-glow {
+  position: absolute;
+  width: 420px;
+  height: 420px;
+  right: -120px;
+  top: -220px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--accent-glow), transparent 65%);
+  opacity: 0.55;
+  pointer-events: none;
+  animation: org-float 8s ease-in-out infinite;
+}
+
+.home-title {
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  margin-top: 4px;
+}
+
+.home-hero-cta {
+  margin-left: auto;
+  position: relative;
+  flex: none;
+}
+
+.home-hero-cta .btn {
+  animation: org-glow 2.8s ease-in-out infinite;
+}
+
+.home-action {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  text-align: left;
+  color: inherit;
+  font: inherit;
+}
+
+.home-action-arrow {
+  margin-left: auto;
+  color: var(--text-3);
+  transition: transform var(--dur) var(--ease-out), color var(--dur) ease;
+}
+
+.home-action:hover .home-action-arrow {
+  transform: translateX(3px);
+  color: var(--accent-text);
+}
+
+/* Histórico */
+.history-list {
+  overflow: hidden;
+}
+
+.history-row {
+  border-top: 1px solid var(--border);
+}
+
+.history-row:first-child {
+  border-top: none;
+}
+
+.history-row.undone {
+  opacity: 0.55;
+}
+
+.history-main {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 11px 16px;
+  border: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+}
+
+button.history-main:hover {
+  background: var(--hover);
+}
+
+.history-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 4px 16px 14px 62px;
+  font-size: 12.5px;
+}
+
+.chev {
+  transition: transform var(--dur) var(--ease-out);
+}
+
+.chev.open {
+  transform: rotate(180deg);
+}
+
+.home-row {
+  display: grid;
+  grid-template-columns: minmax(300px, 0.9fr) minmax(0, 2fr);
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.home-health {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  text-align: left;
+  color: inherit;
+  font: inherit;
+}
+
+.home-health-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-brand);
+  font-size: 20px;
+  font-weight: 800;
+  margin-top: 2px;
+}
+
+.home-tiles {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.home-tile {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.home-tile .btn {
+  align-self: flex-start;
+}
+
+.home-bottom {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.home-drive {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+}
+
+.recent-row {
+  padding: 7px 4px;
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+.recent-row:hover {
+  background: var(--hover);
+}
+
+@media (max-width: 1180px) {
+  .home-row,
+  .home-bottom {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Boas-vindas */
+.welcome {
+  padding: 28px 28px 6px;
+}
+
+.welcome-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 8px;
+}
+
+.welcome-title {
+  font-size: 24px;
+  font-weight: 800;
+  margin-top: 6px;
+}
+
+.welcome-features {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.welcome-feature {
+  display: flex;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 12px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+}
+
+.welcome-themes {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 18px;
+}
+
+.welcome-theme {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 36px;
+  padding: 0 12px 0 6px;
+  border-radius: 10px;
+  border: 1.5px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  font-weight: 600;
+  font-size: 12.5px;
+}
+
+.welcome-theme.active {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.welcome-swatch {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 7px;
+  border: 1px solid rgba(127, 127, 127, 0.3);
+}
+
+.welcome-swatch span {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}

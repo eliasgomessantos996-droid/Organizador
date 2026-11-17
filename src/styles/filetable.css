@@ -1,0 +1,225 @@
+/* Tabela de arquivos (modo Detalhes) */
+.ft-scroll {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  outline: none;
+  contain: strict;
+}
+
+.ft-scroll:focus-visible {
+  box-shadow: none;
+}
+
+.ft-dimmed .ft-inner {
+  opacity: 0.55;
+  transition: opacity 120ms ease;
+}
+
+.ft-inner {
+  position: relative;
+  width: 100%;
+}
+
+.ft-header {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  display: grid;
+  align-items: stretch;
+  padding: 0 12px;
+  background: var(--bg-content);
+  border-bottom: 1px solid var(--border);
+}
+
+.ft-th {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.ft-th-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+  height: 100%;
+  padding: 0 8px;
+  border: none;
+  background: transparent;
+  color: var(--text-2);
+  font-size: 12px;
+  font-weight: 600;
+  text-align: left;
+  border-radius: 6px;
+  transition:
+    background var(--dur-fast) ease,
+    color var(--dur-fast) ease;
+}
+
+.ft-right .ft-th-btn {
+  justify-content: flex-end;
+}
+
+.ft-th-btn:hover {
+  background: var(--hover);
+  color: var(--text);
+}
+
+.ft-th.sorted .ft-th-btn {
+  color: var(--text);
+}
+
+.ft-filter-btn {
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 22px;
+  margin-right: 4px;
+  border: none;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--text-3);
+  opacity: 0;
+  transition:
+    opacity var(--dur-fast) ease,
+    background var(--dur-fast) ease;
+}
+
+.ft-th:hover .ft-filter-btn,
+.ft-filter-btn.active {
+  opacity: 1;
+}
+
+.ft-filter-btn:hover {
+  background: var(--hover);
+  color: var(--text);
+}
+
+.ft-filter-btn.active {
+  color: var(--accent-text);
+  background: var(--accent-soft);
+}
+
+.ft-resizer {
+  position: absolute;
+  right: -4px;
+  top: 8px;
+  bottom: 8px;
+  width: 8px;
+  cursor: col-resize;
+  z-index: 2;
+}
+
+.ft-resizer::after {
+  content: '';
+  position: absolute;
+  left: 3.5px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--border);
+  transition: background var(--dur-fast) ease;
+}
+
+.ft-resizer:hover::after {
+  background: var(--accent);
+}
+
+body.col-resizing,
+body.col-resizing * {
+  cursor: col-resize !important;
+}
+
+.ft-row {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  display: grid;
+  align-items: center;
+  margin: 0 8px;
+  padding: 0 4px;
+  border-radius: 8px;
+  font-size: 13px;
+  transition: background 80ms ease;
+}
+
+.ft-row:hover {
+  background: var(--hover);
+}
+
+.ft-row.selected {
+  background: var(--selection);
+}
+
+.ft-row.selected:hover {
+  background: var(--selection-strong);
+}
+
+.ft-row.focused {
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 55%, transparent);
+}
+
+.ft-scroll:not(:focus-within) .ft-row.focused:not(.selected) {
+  box-shadow: none;
+}
+
+.ft-row.cut {
+  opacity: 0.5;
+}
+
+.ft-cell {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  padding: 0 8px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.ft-right {
+  justify-content: flex-end;
+}
+
+.ft-name {
+  gap: 9px;
+  color: var(--text);
+}
+
+.ft-hidden {
+  opacity: 0.6;
+}
+
+.ft-rename {
+  flex: 1;
+  min-width: 0;
+  height: 26px;
+  margin-left: -4px;
+  padding: 0 6px;
+  border-radius: 6px;
+  border: 1px solid var(--accent);
+  background: var(--surface);
+  color: var(--text);
+  font-size: 13px;
+  box-shadow: var(--focus-ring);
+}
+
+.ft-skeleton {
+  pointer-events: none;
+}
+
+.ft-empty {
+  position: absolute;
+  inset: 36px 0 0 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+
+.ft-empty > * {
+  pointer-events: auto;
+}

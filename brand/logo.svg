@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="org-tile" gradientUnits="userSpaceOnUse" x1="24" y1="24" x2="488" y2="488">
+      <stop offset="0" stop-color="#2DD4BF"/>
+      <stop offset="0.38" stop-color="#14A8B8"/>
+      <stop offset="1" stop-color="#6366F1"/>
+    </linearGradient>
+    <radialGradient id="org-shine" cx="0.22" cy="0.12" r="0.85">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.38"/>
+      <stop offset="0.55" stop-color="#FFFFFF" stop-opacity="0.06"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="org-shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#0B1B3F" flood-opacity="0.22"/>
+    </filter>
+  </defs>
+  <!-- Bloco da marca -->
+  <rect x="24" y="24" width="464" height="464" rx="112" fill="url(#org-tile)"/>
+  <rect x="24" y="24" width="464" height="464" rx="112" fill="url(#org-shine)"/>
+  <!-- Pasta organizada -->
+  <g filter="url(#org-shadow)">
+    <path fill="#FFFFFF" fill-opacity="0.55" d="M128 180a36 36 0 0 1 36-36h58a32 32 0 0 1 22.6 9.4l20 20a16 16 0 0 0 11.3 4.7H348a36 36 0 0 1 36 36v150a36 36 0 0 1-36 36H164a36 36 0 0 1-36-36Z"/>
+    <rect x="128" y="206" width="256" height="194" rx="36" fill="#FFFFFF"/>
+  </g>
+  <!-- Barras em ordem decrescente: arquivos organizados -->
+  <rect x="168" y="250" width="148" height="22" rx="11" fill="url(#org-tile)"/>
+  <rect x="168" y="290" width="110" height="22" rx="11" fill="url(#org-tile)" fill-opacity="0.85"/>
+  <rect x="168" y="330" width="72" height="22" rx="11" fill="url(#org-tile)" fill-opacity="0.7"/>
+  <!-- Brilho de limpeza -->
+  <path fill="#FFFFFF" d="M388 80Q396 116 432 124Q396 132 388 168Q380 132 344 124Q380 116 388 80Z"/>
+  <path fill="#FFFFFF" fill-opacity="0.9" d="M440 176Q443 189 456 192Q443 195 440 208Q437 195 424 192Q437 189 440 176Z"/>
+</svg>

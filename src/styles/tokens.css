@@ -1,0 +1,531 @@
+/*
+ * Tokens de design do Organizador.
+ * Cada tema define as mesmas variáveis; os componentes usam apenas os papéis
+ * (superfície, texto, acento...) e nunca valores fixos.
+ *
+ * Paleta de gráficos: 7 matizes categóricos em ordem fixa (validados para
+ * daltonismo nos modos claro e escuro) + cinza para "Outros".
+ * Cores de status (bom, atenção, grave, crítico) são fixas e sempre
+ * acompanhadas de ícone e rótulo.
+ */
+
+:root {
+  --font-ui: 'Inter Variable', 'Segoe UI Variable Text', 'Segoe UI', system-ui, sans-serif;
+  --font-brand: 'Plus Jakarta Sans Variable', 'Inter Variable', 'Segoe UI', system-ui, sans-serif;
+  --font-mono: 'Cascadia Mono', Consolas, 'SFMono-Regular', ui-monospace, monospace;
+
+  --radius-xs: 6px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 22px;
+  --radius-pill: 999px;
+
+  --titlebar-h: 42px;
+  --sidebar-w: 236px;
+  --sidebar-w-collapsed: 72px;
+  --row-h: 34px;
+  --control-h: 34px;
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --dur-fast: 120ms;
+  --dur: 200ms;
+  --dur-slow: 360ms;
+
+  /* Status (fixos, não mudam com o tema) */
+  --status-good: #0ca30c;
+  --status-warning: #fab219;
+  --status-serious: #ec835a;
+  --status-critical: #d03b3b;
+
+  /* Cores das janelas do Windows */
+  --win-close-hover: #c42b1c;
+}
+
+:root[data-density='compacta'] {
+  --row-h: 28px;
+  --control-h: 30px;
+}
+
+/* ───────────────────────── Tema claro ───────────────────────── */
+:root[data-theme='claro'] {
+  color-scheme: light;
+  --bg-app: #e9eef5;
+  --bg-sidebar: #e9eef5;
+  --bg-content: #f5f7fb;
+  --surface: #ffffff;
+  --surface-2: #f1f4f9;
+  --surface-3: #e5eaf2;
+  --surface-glass: rgba(255, 255, 255, 0.72);
+  --border: #e1e6ee;
+  --border-strong: #c9d2df;
+  --text: #0e1726;
+  --text-2: #475467;
+  --text-3: #667085;
+  --text-on-color: #ffffff;
+  --accent: #0d857a;
+  --accent-2: #4f46e5;
+  --accent-text: #0b7369;
+  --on-accent: #ffffff;
+  --accent-soft: rgba(13, 133, 122, 0.1);
+  --accent-soft-2: rgba(13, 133, 122, 0.17);
+  --accent-glow: rgba(45, 212, 191, 0.35);
+  --brand-gradient: linear-gradient(135deg, #0d857a 0%, #2563eb 60%, #4f46e5 100%);
+  --brand-gradient-soft: linear-gradient(135deg, rgba(45, 212, 191, 0.16), rgba(99, 102, 241, 0.14));
+  --danger: #c0352f;
+  --danger-soft: rgba(208, 59, 59, 0.1);
+  --warning-text: #8a5a00;
+  --warning-soft: rgba(250, 178, 25, 0.16);
+  --success-text: #006300;
+  --success-soft: rgba(12, 163, 12, 0.1);
+  --info: #2a78d6;
+  --info-soft: rgba(42, 120, 214, 0.1);
+  --selection: rgba(13, 133, 122, 0.12);
+  --selection-strong: rgba(13, 133, 122, 0.2);
+  --hover: rgba(15, 23, 42, 0.045);
+  --press: rgba(15, 23, 42, 0.08);
+  --scrollbar: rgba(15, 23, 42, 0.22);
+  --scrollbar-hover: rgba(15, 23, 42, 0.38);
+  --focus-ring: 0 0 0 3px rgba(13, 133, 122, 0.35);
+  --shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.06), 0 1px 1px rgba(16, 24, 40, 0.04);
+  --shadow-md: 0 6px 16px -4px rgba(16, 24, 40, 0.1), 0 2px 4px -2px rgba(16, 24, 40, 0.06);
+  --shadow-lg: 0 24px 48px -12px rgba(16, 24, 40, 0.22), 0 8px 16px -8px rgba(16, 24, 40, 0.1);
+  --overlay: rgba(15, 23, 42, 0.36);
+  --folder-front: #f6c445;
+  --folder-back: #e0a422;
+  /* Gráficos */
+  --chart-surface: #ffffff;
+  --grid: #e8ebf0;
+  --axis: #c3c9d3;
+  --series-1: #2a78d6;
+  --series-2: #eb6834;
+  --series-3: #1baf7a;
+  --series-4: #eda100;
+  --series-5: #e87ba4;
+  --series-6: #008300;
+  --series-7: #6250d6;
+  --series-other: #a3abb8;
+  --track: #e6eaf1;
+}
+
+/* ───────────────────────── Tema escuro ───────────────────────── */
+:root[data-theme='escuro'] {
+  color-scheme: dark;
+  --bg-app: #07090f;
+  --bg-sidebar: #07090f;
+  --bg-content: #0d121b;
+  --surface: #141b28;
+  --surface-2: #1a2232;
+  --surface-3: #232d40;
+  --surface-glass: rgba(20, 27, 40, 0.72);
+  --border: #212a3a;
+  --border-strong: #2f3b51;
+  --text: #e8edf6;
+  --text-2: #aab4c6;
+  --text-3: #8591a6;
+  --text-on-color: #ffffff;
+  --accent: #2dd4bf;
+  --accent-2: #818cf8;
+  --accent-text: #5eead4;
+  --on-accent: #042320;
+  --accent-soft: rgba(45, 212, 191, 0.12);
+  --accent-soft-2: rgba(45, 212, 191, 0.2);
+  --accent-glow: rgba(45, 212, 191, 0.35);
+  --brand-gradient: linear-gradient(135deg, #2dd4bf 0%, #38bdf8 50%, #818cf8 100%);
+  --brand-gradient-soft: linear-gradient(135deg, rgba(45, 212, 191, 0.14), rgba(129, 140, 248, 0.12));
+  --danger: #f07171;
+  --danger-soft: rgba(240, 113, 113, 0.12);
+  --warning-text: #fbc04f;
+  --warning-soft: rgba(250, 178, 25, 0.13);
+  --success-text: #3fd13f;
+  --success-soft: rgba(12, 163, 12, 0.16);
+  --info: #6aa8f0;
+  --info-soft: rgba(57, 135, 229, 0.14);
+  --selection: rgba(45, 212, 191, 0.12);
+  --selection-strong: rgba(45, 212, 191, 0.2);
+  --hover: rgba(255, 255, 255, 0.045);
+  --press: rgba(255, 255, 255, 0.08);
+  --scrollbar: rgba(255, 255, 255, 0.16);
+  --scrollbar-hover: rgba(255, 255, 255, 0.3);
+  --focus-ring: 0 0 0 3px rgba(45, 212, 191, 0.4);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 8px 20px -6px rgba(0, 0, 0, 0.55), 0 2px 6px -2px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 28px 56px -12px rgba(0, 0, 0, 0.7), 0 10px 20px -10px rgba(0, 0, 0, 0.5);
+  --overlay: rgba(2, 4, 8, 0.6);
+  --folder-front: #f2bf4a;
+  --folder-back: #c98f1c;
+  --chart-surface: #141b28;
+  --grid: #222b3a;
+  --axis: #344055;
+  --series-1: #3987e5;
+  --series-2: #d95926;
+  --series-3: #199e70;
+  --series-4: #c98500;
+  --series-5: #d55181;
+  --series-6: #0ca30c;
+  --series-7: #9085e9;
+  --series-other: #5d6879;
+  --track: #232d3f;
+}
+
+/* ───────────────────────── Oceano ───────────────────────── */
+:root[data-theme='oceano'] {
+  color-scheme: dark;
+  --bg-app: #030d17;
+  --bg-sidebar: #030d17;
+  --bg-content: #061523;
+  --surface: #0a2033;
+  --surface-2: #0f293f;
+  --surface-3: #15344f;
+  --surface-glass: rgba(10, 32, 51, 0.74);
+  --border: #133049;
+  --border-strong: #1d4466;
+  --text: #e4f3ff;
+  --text-2: #a2c1db;
+  --text-3: #7c9db9;
+  --text-on-color: #ffffff;
+  --accent: #38bdf8;
+  --accent-2: #22d3ee;
+  --accent-text: #7dd3fc;
+  --on-accent: #02202f;
+  --accent-soft: rgba(56, 189, 248, 0.13);
+  --accent-soft-2: rgba(56, 189, 248, 0.22);
+  --accent-glow: rgba(56, 189, 248, 0.38);
+  --brand-gradient: linear-gradient(135deg, #22d3ee 0%, #38bdf8 45%, #6366f1 100%);
+  --brand-gradient-soft: linear-gradient(135deg, rgba(34, 211, 238, 0.15), rgba(99, 102, 241, 0.12));
+  --danger: #f58a8a;
+  --danger-soft: rgba(245, 138, 138, 0.12);
+  --warning-text: #fbc04f;
+  --warning-soft: rgba(250, 178, 25, 0.13);
+  --success-text: #3fd13f;
+  --success-soft: rgba(12, 163, 12, 0.16);
+  --info: #7cb6f5;
+  --info-soft: rgba(57, 135, 229, 0.16);
+  --selection: rgba(56, 189, 248, 0.13);
+  --selection-strong: rgba(56, 189, 248, 0.22);
+  --hover: rgba(186, 230, 253, 0.05);
+  --press: rgba(186, 230, 253, 0.09);
+  --scrollbar: rgba(186, 230, 253, 0.16);
+  --scrollbar-hover: rgba(186, 230, 253, 0.3);
+  --focus-ring: 0 0 0 3px rgba(56, 189, 248, 0.42);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.45);
+  --shadow-md: 0 8px 20px -6px rgba(0, 8, 20, 0.6), 0 2px 6px -2px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 28px 56px -12px rgba(0, 8, 20, 0.75), 0 10px 20px -10px rgba(0, 0, 0, 0.5);
+  --overlay: rgba(1, 8, 16, 0.62);
+  --folder-front: #f2bf4a;
+  --folder-back: #c98f1c;
+  --chart-surface: #0a2033;
+  --grid: #14304a;
+  --axis: #224466;
+  --series-1: #3987e5;
+  --series-2: #d95926;
+  --series-3: #199e70;
+  --series-4: #c98500;
+  --series-5: #d55181;
+  --series-6: #0ca30c;
+  --series-7: #9085e9;
+  --series-other: #587089;
+  --track: #15324c;
+}
+
+/* ───────────────────────── Floresta ───────────────────────── */
+:root[data-theme='floresta'] {
+  color-scheme: dark;
+  --bg-app: #050b08;
+  --bg-sidebar: #050b08;
+  --bg-content: #09130e;
+  --surface: #0f1f17;
+  --surface-2: #14291f;
+  --surface-3: #1b3528;
+  --surface-glass: rgba(15, 31, 23, 0.74);
+  --border: #18301f;
+  --border-strong: #24452f;
+  --text: #e7f5ec;
+  --text-2: #a7c6b3;
+  --text-3: #7f9e8a;
+  --text-on-color: #ffffff;
+  --accent: #34d399;
+  --accent-2: #a3e635;
+  --accent-text: #6ee7b7;
+  --on-accent: #032a18;
+  --accent-soft: rgba(52, 211, 153, 0.13);
+  --accent-soft-2: rgba(52, 211, 153, 0.22);
+  --accent-glow: rgba(52, 211, 153, 0.36);
+  --brand-gradient: linear-gradient(135deg, #34d399 0%, #4ade80 50%, #a3e635 100%);
+  --brand-gradient-soft: linear-gradient(135deg, rgba(52, 211, 153, 0.15), rgba(163, 230, 53, 0.1));
+  --danger: #f58a8a;
+  --danger-soft: rgba(245, 138, 138, 0.12);
+  --warning-text: #fbc04f;
+  --warning-soft: rgba(250, 178, 25, 0.13);
+  --success-text: #4ade80;
+  --success-soft: rgba(12, 163, 12, 0.18);
+  --info: #7cb6f5;
+  --info-soft: rgba(57, 135, 229, 0.15);
+  --selection: rgba(52, 211, 153, 0.13);
+  --selection-strong: rgba(52, 211, 153, 0.22);
+  --hover: rgba(209, 250, 229, 0.045);
+  --press: rgba(209, 250, 229, 0.085);
+  --scrollbar: rgba(209, 250, 229, 0.15);
+  --scrollbar-hover: rgba(209, 250, 229, 0.28);
+  --focus-ring: 0 0 0 3px rgba(52, 211, 153, 0.4);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.45);
+  --shadow-md: 0 8px 20px -6px rgba(0, 0, 0, 0.6), 0 2px 6px -2px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 28px 56px -12px rgba(0, 0, 0, 0.75), 0 10px 20px -10px rgba(0, 0, 0, 0.5);
+  --overlay: rgba(2, 8, 5, 0.62);
+  --folder-front: #f2bf4a;
+  --folder-back: #c98f1c;
+  --chart-surface: #0f1f17;
+  --grid: #183022;
+  --axis: #24452f;
+  --series-1: #3987e5;
+  --series-2: #d95926;
+  --series-3: #199e70;
+  --series-4: #c98500;
+  --series-5: #d55181;
+  --series-6: #0ca30c;
+  --series-7: #9085e9;
+  --series-other: #5a7364;
+  --track: #1a3326;
+}
+
+/* ───────────────────────── Pôr do sol ───────────────────────── */
+:root[data-theme='por-do-sol'] {
+  color-scheme: dark;
+  --bg-app: #0d080b;
+  --bg-sidebar: #0d080b;
+  --bg-content: #150e12;
+  --surface: #20151b;
+  --surface-2: #291b23;
+  --surface-3: #34232d;
+  --surface-glass: rgba(32, 21, 27, 0.74);
+  --border: #2f2029;
+  --border-strong: #46303c;
+  --text: #fbeff3;
+  --text-2: #d3b6c1;
+  --text-3: #ab8c99;
+  --text-on-color: #ffffff;
+  --accent: #fb923c;
+  --accent-2: #f472b6;
+  --accent-text: #fdba74;
+  --on-accent: #2b1004;
+  --accent-soft: rgba(251, 146, 60, 0.13);
+  --accent-soft-2: rgba(251, 146, 60, 0.22);
+  --accent-glow: rgba(251, 146, 60, 0.36);
+  --brand-gradient: linear-gradient(135deg, #fbbf24 0%, #fb923c 40%, #f472b6 100%);
+  --brand-gradient-soft: linear-gradient(135deg, rgba(251, 146, 60, 0.15), rgba(244, 114, 182, 0.12));
+  --danger: #f58a8a;
+  --danger-soft: rgba(245, 138, 138, 0.12);
+  --warning-text: #fbc04f;
+  --warning-soft: rgba(250, 178, 25, 0.13);
+  --success-text: #3fd13f;
+  --success-soft: rgba(12, 163, 12, 0.16);
+  --info: #7cb6f5;
+  --info-soft: rgba(57, 135, 229, 0.15);
+  --selection: rgba(251, 146, 60, 0.13);
+  --selection-strong: rgba(251, 146, 60, 0.22);
+  --hover: rgba(255, 228, 236, 0.045);
+  --press: rgba(255, 228, 236, 0.085);
+  --scrollbar: rgba(255, 228, 236, 0.15);
+  --scrollbar-hover: rgba(255, 228, 236, 0.28);
+  --focus-ring: 0 0 0 3px rgba(251, 146, 60, 0.42);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.45);
+  --shadow-md: 0 8px 20px -6px rgba(0, 0, 0, 0.6), 0 2px 6px -2px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 28px 56px -12px rgba(0, 0, 0, 0.75), 0 10px 20px -10px rgba(0, 0, 0, 0.5);
+  --overlay: rgba(10, 4, 7, 0.62);
+  --folder-front: #f2bf4a;
+  --folder-back: #c98f1c;
+  --chart-surface: #20151b;
+  --grid: #2f2029;
+  --axis: #46303c;
+  --series-1: #3987e5;
+  --series-2: #d95926;
+  --series-3: #199e70;
+  --series-4: #c98500;
+  --series-5: #d55181;
+  --series-6: #0ca30c;
+  --series-7: #9085e9;
+  --series-other: #6e5a64;
+  --track: #33232c;
+}
+
+/* ───────────────────────── Lavanda (claro) ───────────────────────── */
+:root[data-theme='lavanda'] {
+  color-scheme: light;
+  --bg-app: #ebe6fa;
+  --bg-sidebar: #ebe6fa;
+  --bg-content: #f7f4ff;
+  --surface: #ffffff;
+  --surface-2: #f3effd;
+  --surface-3: #e8e1fb;
+  --surface-glass: rgba(255, 255, 255, 0.74);
+  --border: #e5ddf7;
+  --border-strong: #cfc3f0;
+  --text: #1c1530;
+  --text-2: #4e4566;
+  --text-3: #6b6388;
+  --text-on-color: #ffffff;
+  --accent: #7c3aed;
+  --accent-2: #db2777;
+  --accent-text: #6d28d9;
+  --on-accent: #ffffff;
+  --accent-soft: rgba(124, 58, 237, 0.1);
+  --accent-soft-2: rgba(124, 58, 237, 0.17);
+  --accent-glow: rgba(167, 139, 250, 0.4);
+  --brand-gradient: linear-gradient(135deg, #7c3aed 0%, #a21caf 55%, #db2777 100%);
+  --brand-gradient-soft: linear-gradient(135deg, rgba(124, 58, 237, 0.12), rgba(219, 39, 119, 0.1));
+  --danger: #c0352f;
+  --danger-soft: rgba(208, 59, 59, 0.1);
+  --warning-text: #8a5a00;
+  --warning-soft: rgba(250, 178, 25, 0.16);
+  --success-text: #006300;
+  --success-soft: rgba(12, 163, 12, 0.1);
+  --info: #2a78d6;
+  --info-soft: rgba(42, 120, 214, 0.1);
+  --selection: rgba(124, 58, 237, 0.11);
+  --selection-strong: rgba(124, 58, 237, 0.19);
+  --hover: rgba(46, 16, 101, 0.045);
+  --press: rgba(46, 16, 101, 0.08);
+  --scrollbar: rgba(46, 16, 101, 0.22);
+  --scrollbar-hover: rgba(46, 16, 101, 0.36);
+  --focus-ring: 0 0 0 3px rgba(124, 58, 237, 0.32);
+  --shadow-sm: 0 1px 2px rgba(46, 16, 101, 0.07), 0 1px 1px rgba(46, 16, 101, 0.04);
+  --shadow-md: 0 6px 16px -4px rgba(46, 16, 101, 0.12), 0 2px 4px -2px rgba(46, 16, 101, 0.06);
+  --shadow-lg: 0 24px 48px -12px rgba(46, 16, 101, 0.24), 0 8px 16px -8px rgba(46, 16, 101, 0.1);
+  --overlay: rgba(28, 21, 48, 0.36);
+  --folder-front: #f6c445;
+  --folder-back: #e0a422;
+  --chart-surface: #ffffff;
+  --grid: #ece6fa;
+  --axis: #cdc3ea;
+  --series-1: #2a78d6;
+  --series-2: #eb6834;
+  --series-3: #1baf7a;
+  --series-4: #eda100;
+  --series-5: #e87ba4;
+  --series-6: #008300;
+  --series-7: #6250d6;
+  --series-other: #ada6c2;
+  --track: #ebe5fa;
+}
+
+/* ───────────────────────── Grafite ───────────────────────── */
+:root[data-theme='grafite'] {
+  color-scheme: dark;
+  --bg-app: #0a0a0b;
+  --bg-sidebar: #0a0a0b;
+  --bg-content: #111113;
+  --surface: #18181b;
+  --surface-2: #1f1f23;
+  --surface-3: #28282d;
+  --surface-glass: rgba(24, 24, 27, 0.76);
+  --border: #26262b;
+  --border-strong: #3a3a41;
+  --text: #ececef;
+  --text-2: #b4b4bd;
+  --text-3: #8d8d98;
+  --text-on-color: #ffffff;
+  --accent: #fbbf24;
+  --accent-2: #f97316;
+  --accent-text: #fcd34d;
+  --on-accent: #241703;
+  --accent-soft: rgba(251, 191, 36, 0.12);
+  --accent-soft-2: rgba(251, 191, 36, 0.2);
+  --accent-glow: rgba(251, 191, 36, 0.32);
+  --brand-gradient: linear-gradient(135deg, #fde047 0%, #fbbf24 40%, #f97316 100%);
+  --brand-gradient-soft: linear-gradient(135deg, rgba(251, 191, 36, 0.13), rgba(249, 115, 22, 0.1));
+  --danger: #f58a8a;
+  --danger-soft: rgba(245, 138, 138, 0.12);
+  --warning-text: #fbc04f;
+  --warning-soft: rgba(250, 178, 25, 0.13);
+  --success-text: #3fd13f;
+  --success-soft: rgba(12, 163, 12, 0.16);
+  --info: #7cb6f5;
+  --info-soft: rgba(57, 135, 229, 0.15);
+  --selection: rgba(251, 191, 36, 0.12);
+  --selection-strong: rgba(251, 191, 36, 0.2);
+  --hover: rgba(255, 255, 255, 0.045);
+  --press: rgba(255, 255, 255, 0.08);
+  --scrollbar: rgba(255, 255, 255, 0.16);
+  --scrollbar-hover: rgba(255, 255, 255, 0.3);
+  --focus-ring: 0 0 0 3px rgba(251, 191, 36, 0.38);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 8px 20px -6px rgba(0, 0, 0, 0.65), 0 2px 6px -2px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 28px 56px -12px rgba(0, 0, 0, 0.8), 0 10px 20px -10px rgba(0, 0, 0, 0.55);
+  --overlay: rgba(0, 0, 0, 0.64);
+  --folder-front: #f2bf4a;
+  --folder-back: #c98f1c;
+  --chart-surface: #18181b;
+  --grid: #26262b;
+  --axis: #3a3a41;
+  --series-1: #3987e5;
+  --series-2: #d95926;
+  --series-3: #199e70;
+  --series-4: #c98500;
+  --series-5: #d55181;
+  --series-6: #0ca30c;
+  --series-7: #9085e9;
+  --series-other: #62626c;
+  --track: #2a2a30;
+}
+
+/* ───────────────────────── Alto contraste ───────────────────────── */
+:root[data-theme='alto-contraste'] {
+  color-scheme: dark;
+  --bg-app: #000000;
+  --bg-sidebar: #000000;
+  --bg-content: #000000;
+  --surface: #000000;
+  --surface-2: #121212;
+  --surface-3: #1f1f1f;
+  --surface-glass: rgba(0, 0, 0, 0.92);
+  --border: #8a8a8a;
+  --border-strong: #ffffff;
+  --text: #ffffff;
+  --text-2: #f2f2f2;
+  --text-3: #d6d6d6;
+  --text-on-color: #000000;
+  --accent: #ffd400;
+  --accent-2: #ffd400;
+  --accent-text: #ffe347;
+  --on-accent: #000000;
+  --accent-soft: rgba(255, 212, 0, 0.2);
+  --accent-soft-2: rgba(255, 212, 0, 0.32);
+  --accent-glow: rgba(255, 212, 0, 0.4);
+  --brand-gradient: linear-gradient(135deg, #ffd400, #ffd400);
+  --brand-gradient-soft: linear-gradient(135deg, rgba(255, 212, 0, 0.16), rgba(255, 212, 0, 0.16));
+  --danger: #ff7b7b;
+  --danger-soft: rgba(255, 123, 123, 0.2);
+  --warning-text: #ffd400;
+  --warning-soft: rgba(255, 212, 0, 0.2);
+  --success-text: #5cf25c;
+  --success-soft: rgba(92, 242, 92, 0.18);
+  --info: #8cc4ff;
+  --info-soft: rgba(140, 196, 255, 0.2);
+  --selection: rgba(255, 212, 0, 0.22);
+  --selection-strong: rgba(255, 212, 0, 0.34);
+  --hover: rgba(255, 255, 255, 0.1);
+  --press: rgba(255, 255, 255, 0.18);
+  --scrollbar: rgba(255, 255, 255, 0.5);
+  --scrollbar-hover: #ffffff;
+  --focus-ring: 0 0 0 3px #ffd400;
+  --shadow-sm: none;
+  --shadow-md: 0 0 0 1px #ffffff;
+  --shadow-lg: 0 0 0 2px #ffffff;
+  --overlay: rgba(0, 0, 0, 0.8);
+  --folder-front: #ffd400;
+  --folder-back: #c9a700;
+  --chart-surface: #000000;
+  --grid: #3d3d3d;
+  --axis: #8a8a8a;
+  --series-1: #3987e5;
+  --series-2: #d95926;
+  --series-3: #199e70;
+  --series-4: #c98500;
+  --series-5: #d55181;
+  --series-6: #0ca30c;
+  --series-7: #9085e9;
+  --series-other: #8a8a8a;
+  --track: #2b2b2b;
+}

@@ -1,0 +1,245 @@
+/* Saúde do PC */
+.health-top {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+  gap: 16px;
+}
+
+.health-hero {
+  display: flex;
+  gap: 28px;
+  align-items: flex-start;
+}
+
+.health-hero-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.health-verdict {
+  font-size: 19px;
+  font-weight: 750;
+  margin: 4px 0 6px;
+}
+
+.metric-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.metric-row {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.metric-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.metric-label {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.metric-detail {
+  font-size: 12px;
+  color: var(--text-3);
+}
+
+.health-tips {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-height: 460px;
+  overflow-y: auto;
+}
+
+.tip {
+  display: flex;
+  gap: 12px;
+  padding: 10px 6px;
+  border-bottom: 1px solid var(--border);
+}
+
+.tip:last-child {
+  border-bottom: none;
+}
+
+.tip-icon {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  flex: none;
+}
+
+.tip-icon.good {
+  background: var(--success-soft);
+  color: var(--success-text);
+}
+
+.tip-icon.warning {
+  background: var(--warning-soft);
+  color: var(--warning-text);
+}
+
+.tip-icon.serious {
+  background: rgba(236, 131, 90, 0.16);
+  color: var(--warning-text);
+}
+
+.tip-icon.critical {
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+
+.tip-title {
+  font-weight: 650;
+  font-size: 13.5px;
+}
+
+.tip-text {
+  font-size: 12.5px;
+  color: var(--text-2);
+  margin-top: 2px;
+}
+
+.live-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.junk-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: var(--surface-2);
+  font-size: 12.5px;
+}
+
+.junk-split div {
+  display: flex;
+  flex-direction: column;
+}
+
+.link-btn {
+  border: none;
+  background: none;
+  padding: 0;
+  color: var(--accent-text);
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.link-btn:hover {
+  text-decoration: underline;
+}
+
+.health-mid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.disk-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.battery-gauge {
+  position: relative;
+  width: 92px;
+  height: 40px;
+  border-radius: 10px;
+  border: 2px solid var(--border-strong);
+  padding: 3px;
+  display: flex;
+  align-items: center;
+}
+
+.battery-gauge::after {
+  content: '';
+  position: absolute;
+  right: -7px;
+  top: 12px;
+  width: 4px;
+  height: 12px;
+  border-radius: 0 3px 3px 0;
+  background: var(--border-strong);
+}
+
+.battery-fill {
+  height: 100%;
+  border-radius: 6px;
+  transition: width 600ms var(--ease-out);
+}
+
+.battery-gauge span {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-weight: 750;
+  font-size: 13px;
+  color: var(--text);
+  text-shadow: 0 0 6px var(--surface);
+}
+
+.sys-grid {
+  display: grid;
+  grid-template-columns: 96px 1fr;
+  gap: 8px 12px;
+  font-size: 12.5px;
+  align-items: center;
+}
+
+.tools-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 8px;
+}
+
+.tool-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 42px;
+  padding: 0 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 550;
+  text-align: left;
+  transition: border-color var(--dur-fast) ease, background var(--dur-fast) ease, transform var(--dur-fast) ease;
+}
+
+.tool-btn svg {
+  color: var(--accent-text);
+}
+
+.tool-btn:hover {
+  border-color: var(--border-strong);
+  background: var(--surface);
+  transform: translateY(-1px);
+}
+
+@media (max-width: 1240px) {
+  .health-top,
+  .health-mid {
+    grid-template-columns: 1fr;
+  }
+}

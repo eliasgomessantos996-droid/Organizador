@@ -1,0 +1,9 @@
+# Mesmas quebras de linha (LF) em qualquer sistema, inclusive no CI do Windows.
+* text=auto eol=lf
+
+*.png binary
+*.ico binary
+*.icns binary
+*.bmp binary
+*.woff binary
+*.woff2 binary
